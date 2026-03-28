@@ -1,0 +1,13 @@
+{
+  "mcpServers": {
+    "sas-va": {
+      "command": "python3",
+      "args": ["/workspace/claude-smoke/sas_va_mcp/server.py"],
+      "env": {
+        "VIYA_BASE_URL": "https://harvai.westeurope.cloudapp.azure.com",
+        "VIYA_USERNAME": "${VIYA_USERNAME}",
+        "VIYA_PASSWORD": "${VIYA_PASSWORD}"
+      }
+    }
+  }
+}
