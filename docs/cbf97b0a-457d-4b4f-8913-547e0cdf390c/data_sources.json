@@ -1,0 +1,469 @@
+{
+  "report_id": "cbf97b0a-457d-4b4f-8913-547e0cdf390c",
+  "data_source_count": 3,
+  "data_sources": [
+    {
+      "name": "ds10",
+      "label": "RAND_RETAILDEMO",
+      "type": "relational",
+      "connection": {
+        "server": "cas-shared-default",
+        "library": "Samples",
+        "table": "RAND_RETAILDEMO",
+        "locale": "en_US"
+      },
+      "columns": [
+        {
+          "name": "bi11",
+          "label": "",
+          "type": "DataItem",
+          "xref": "brand_name1"
+        },
+        {
+          "name": "bi12",
+          "label": "",
+          "type": "DataItem",
+          "xref": "ChannelType"
+        },
+        {
+          "name": "bi13",
+          "label": "",
+          "type": "DataItem",
+          "xref": "City"
+        },
+        {
+          "name": "bi14",
+          "label": "",
+          "type": "DataItem",
+          "xref": "City_Lat"
+        },
+        {
+          "name": "bi15",
+          "label": "",
+          "type": "DataItem",
+          "xref": "City_Long"
+        },
+        {
+          "name": "bi16",
+          "label": "",
+          "type": "DataItem",
+          "xref": "Country"
+        },
+        {
+          "name": "bi17",
+          "label": "",
+          "type": "DataItem",
+          "xref": "Country_Lat"
+        },
+        {
+          "name": "bi18",
+          "label": "",
+          "type": "DataItem",
+          "xref": "Country_Long"
+        },
+        {
+          "name": "bi19",
+          "label": "",
+          "type": "DataItem",
+          "xref": "age"
+        },
+        {
+          "name": "bi20",
+          "label": "",
+          "type": "DataItem",
+          "xref": "age_bucket"
+        },
+        {
+          "name": "bi21",
+          "label": "",
+          "type": "DataItem",
+          "xref": "CustID"
+        },
+        {
+          "name": "bi22",
+          "label": "",
+          "type": "DataItem",
+          "xref": "loyalty_card"
+        },
+        {
+          "name": "bi23",
+          "label": "",
+          "type": "DataItem",
+          "xref": "bucket"
+        },
+        {
+          "name": "bi24",
+          "label": "",
+          "type": "DataItem",
+          "xref": "Margin"
+        },
+        {
+          "name": "bi25",
+          "label": "",
+          "type": "DataItem",
+          "xref": "mkt_bdgt"
+        },
+        {
+          "name": "bi26",
+          "label": "",
+          "type": "DataItem",
+          "xref": "MDY"
+        },
+        {
+          "name": "bi27",
+          "label": "",
+          "type": "DataItem",
+          "xref": "brand_name"
+        },
+        {
+          "name": "bi28",
+          "label": "",
+          "type": "DataItem",
+          "xref": "Class"
+        },
+        {
+          "name": "bi29",
+          "label": "",
+          "type": "DataItem",
+          "xref": "Department"
+        },
+        {
+          "name": "bi30",
+          "label": "",
+          "type": "DataItem",
+          "xref": "Region"
+        },
+        {
+          "name": "bi31",
+          "label": "",
+          "type": "DataItem",
+          "xref": "Region_2"
+        },
+        {
+          "name": "bi32",
+          "label": "",
+          "type": "DataItem",
+          "xref": "Region_2_Lat"
+        },
+        {
+          "name": "bi33",
+          "label": "",
+          "type": "DataItem",
+          "xref": "Region_2_Long"
+        },
+        {
+          "name": "bi34",
+          "label": "",
+          "type": "DataItem",
+          "xref": "Region_Lat"
+        },
+        {
+          "name": "bi35",
+          "label": "",
+          "type": "DataItem",
+          "xref": "Region_Long"
+        },
+        {
+          "name": "bi36",
+          "label": "",
+          "type": "DataItem",
+          "xref": "Sales"
+        },
+        {
+          "name": "bi37",
+          "label": "",
+          "type": "DataItem",
+          "xref": "Cost"
+        },
+        {
+          "name": "bi38",
+          "label": "",
+          "type": "DataItem",
+          "xref": "State"
+        },
+        {
+          "name": "bi39",
+          "label": "",
+          "type": "DataItem",
+          "xref": "State_Lat"
+        },
+        {
+          "name": "bi40",
+          "label": "",
+          "type": "DataItem",
+          "xref": "State_Long"
+        },
+        {
+          "name": "bi41",
+          "label": "",
+          "type": "DataItem",
+          "xref": "Storeage"
+        },
+        {
+          "name": "bi42",
+          "label": "",
+          "type": "DataItem",
+          "xref": "Storechain"
+        },
+        {
+          "name": "bi43",
+          "label": "",
+          "type": "DataItem",
+          "xref": "Storechain1"
+        },
+        {
+          "name": "bi44",
+          "label": "",
+          "type": "DataItem",
+          "xref": "StoreNum"
+        },
+        {
+          "name": "bi45",
+          "label": "",
+          "type": "DataItem",
+          "xref": "sss"
+        },
+        {
+          "name": "bi46",
+          "label": "",
+          "type": "DataItem",
+          "xref": "Date"
+        },
+        {
+          "name": "bi47",
+          "label": "",
+          "type": "DataItem",
+          "xref": "trx_dow_new"
+        },
+        {
+          "name": "bi49",
+          "label": "",
+          "type": "DataItem",
+          "xref": "trx_tod"
+        },
+        {
+          "name": "bi50",
+          "label": "",
+          "type": "DataItem",
+          "xref": "Year"
+        },
+        {
+          "name": "bi234",
+          "label": "Transaction MMYYYY",
+          "type": "DataItem",
+          "xref": "Date"
+        },
+        {
+          "name": "bi362",
+          "label": "State -  Region",
+          "type": "DataItem",
+          "xref": "State"
+        },
+        {
+          "name": "bi382",
+          "label": "Regular Sales Avg",
+          "type": "DataItem",
+          "xref": "Sales"
+        },
+        {
+          "name": "bi1488",
+          "label": "Transaction Date DOW",
+          "type": "DataItem",
+          "xref": "Date"
+        },
+        {
+          "name": "bi2419",
+          "label": "",
+          "type": "DataItem",
+          "xref": "trx_hr_char"
+        },
+        {
+          "name": "bi6322",
+          "label": "Custom Region",
+          "type": "DataItem",
+          "xref": "Region"
+        }
+      ],
+      "calculations": [
+        {
+          "name": "bi78",
+          "label": "Marketing Pct of Sales",
+          "type": "AggregateCalculatedItem",
+          "xref": "",
+          "expression": "div(aggregate(average,group,${bi25,raw}),aggregate(sum,group,${bi36,raw}))"
+        },
+        {
+          "name": "bi381",
+          "label": "Adjusted Sales",
+          "type": "CalculatedItem",
+          "xref": "",
+          "expression": "cond(in(${bi31,binned},'US_MW','US_CS','US_AT','LATA','EU','ASIA'),times(${bi36,raw},plus(0.85,#{pr380})),times(${bi36,raw},plus(1,#{pr380})))"
+        },
+        {
+          "name": "bi383",
+          "label": "Sales per SQFT",
+          "type": "AggregateCalculatedItem",
+          "xref": "",
+          "expression": "div(aggregate(sum,group,${bi36,raw}),aggregate(average,group,${bi45,raw}))"
+        },
+        {
+          "name": "bi477",
+          "label": "ROI",
+          "type": "AggregateCalculatedItem",
+          "xref": "",
+          "expression": "div(minus(aggregate(sum,group,${bi36,raw}),aggregate(sum,group,${bi37,raw})),aggregate(sum,group,${bi37,raw}))"
+        },
+        {
+          "name": "bi478",
+          "label": "Adjusted Sales Cost",
+          "type": "CalculatedItem",
+          "xref": "",
+          "expression": "times(${bi37,raw},plus(1,#{pr424}))"
+        },
+        {
+          "name": "bi479",
+          "label": "Adjust ROI",
+          "type": "AggregateCalculatedItem",
+          "xref": "",
+          "expression": "div(minus(aggregate(sum,group,${bi381,raw}),aggregate(sum,group,${bi478,raw})),aggregate(sum,group,${bi478,raw}))"
+        }
+      ],
+      "hierarchies": [
+        {
+          "name": "bi157",
+          "label": "Merchandise Hierarchy",
+          "type": "Hierarchy",
+          "xref": ""
+        },
+        {
+          "name": "bi6456",
+          "label": "Hierarchy 1",
+          "type": "Hierarchy",
+          "xref": ""
+        },
+        {
+          "name": "bi6505",
+          "label": "Hierarchy 2",
+          "type": "Hierarchy",
+          "xref": ""
+        }
+      ]
+    },
+    {
+      "name": "ds378",
+      "label": "EsriMapProvider",
+      "type": "mapprovider",
+      "connection": {
+        "type": "EsriMapProvider",
+        "url": "https://services.arcgisonline.com/ArcGIS/rest/services",
+        "service": "Canvas/World_Light_Gray_Base"
+      },
+      "columns": [],
+      "calculations": [],
+      "hierarchies": []
+    },
+    {
+      "name": "ds1351",
+      "label": "PROMO_EFFECTIVENESS_X_EFFECTS_2",
+      "type": "relational",
+      "connection": {
+        "server": "cas-shared-default",
+        "library": "Samples",
+        "table": "PROMO_EFFECTIVENESS_X_EFFECTS_2",
+        "locale": "en_US"
+      },
+      "columns": [
+        {
+          "name": "bi1352",
+          "label": "",
+          "type": "DataItem",
+          "xref": "revenue_____actual"
+        },
+        {
+          "name": "bi1353",
+          "label": "",
+          "type": "DataItem",
+          "xref": "revenue_____baseline"
+        },
+        {
+          "name": "bi1354",
+          "label": "",
+          "type": "DataItem",
+          "xref": "revenue_____expected"
+        },
+        {
+          "name": "bi1355",
+          "label": "",
+          "type": "DataItem",
+          "xref": "forecast_accuracy"
+        },
+        {
+          "name": "bi1356",
+          "label": "",
+          "type": "DataItem",
+          "xref": "revenue_____expected_change"
+        },
+        {
+          "name": "bi1357",
+          "label": "",
+          "type": "DataItem",
+          "xref": "halo___cannibal_impact"
+        },
+        {
+          "name": "bi1358",
+          "label": "",
+          "type": "DataItem",
+          "xref": "own_price_impact"
+        },
+        {
+          "name": "bi1359",
+          "label": "",
+          "type": "DataItem",
+          "xref": "prod_hier_sk"
+        },
+        {
+          "name": "bi1360",
+          "label": "",
+          "type": "DataItem",
+          "xref": "name"
+        },
+        {
+          "name": "bi1361",
+          "label": "",
+          "type": "DataItem",
+          "xref": "promotion_name"
+        },
+        {
+          "name": "bi1362",
+          "label": "",
+          "type": "DataItem",
+          "xref": "total_price_impact"
+        }
+      ],
+      "calculations": [
+        {
+          "name": "bi2869",
+          "label": "Actual vs Forecast",
+          "type": "AggregateCalculatedItem",
+          "xref": "",
+          "expression": "div(minus(aggregate(sum,group,${bi1352,raw}),aggregate(sum,group,${bi1354,raw})),aggregate(sum,group,${bi1354,raw}))"
+        },
+        {
+          "name": "bi2872",
+          "label": "Actual vs Baseline",
+          "type": "AggregateCalculatedItem",
+          "xref": "",
+          "expression": "div(minus(aggregate(sum,group,${bi1352,raw}),aggregate(sum,group,${bi1353,raw})),aggregate(sum,group,${bi1353,raw}))"
+        },
+        {
+          "name": "bi3643",
+          "label": "Forecast vs Baseline",
+          "type": "AggregateCalculatedItem",
+          "xref": "",
+          "expression": "div(minus(aggregate(sum,group,${bi1354,raw}),aggregate(sum,group,${bi1353,raw})),aggregate(sum,group,${bi1353,raw}))"
+        }
+      ],
+      "hierarchies": []
+    }
+  ]
+}

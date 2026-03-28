@@ -1,0 +1,265 @@
+{
+  "report_id": "cbf97b0a-457d-4b4f-8913-547e0cdf390c",
+  "visual_count": 28,
+  "visuals": [
+    {
+      "name": "ve156",
+      "label": "",
+      "type": "Table",
+      "data_definition": "dd153",
+      "graph_type": null,
+      "result_definitions": "dd155",
+      "referenced_data_items": []
+    },
+    {
+      "name": "ve170",
+      "label": "",
+      "type": "Table",
+      "data_definition": "dd167",
+      "graph_type": null,
+      "result_definitions": "dd169",
+      "referenced_data_items": []
+    },
+    {
+      "name": "ve183",
+      "label": "",
+      "type": "Table",
+      "data_definition": "dd180",
+      "graph_type": null,
+      "result_definitions": "dd182",
+      "referenced_data_items": []
+    },
+    {
+      "name": "ve6633",
+      "label": "",
+      "type": "Table",
+      "data_definition": "dd6629",
+      "graph_type": null,
+      "result_definitions": "dd6631",
+      "referenced_data_items": []
+    },
+    {
+      "name": "ve6628",
+      "label": "",
+      "type": "Table",
+      "data_definition": "dd6624",
+      "graph_type": null,
+      "result_definitions": "dd6626",
+      "referenced_data_items": []
+    },
+    {
+      "name": "ve432",
+      "label": "",
+      "type": "Table",
+      "data_definition": "dd429",
+      "graph_type": null,
+      "result_definitions": "dd431",
+      "referenced_data_items": []
+    },
+    {
+      "name": "ve7234",
+      "label": "",
+      "type": "Table",
+      "data_definition": "dd7231",
+      "graph_type": null,
+      "result_definitions": "dd7233",
+      "referenced_data_items": []
+    },
+    {
+      "name": "ve6615",
+      "label": "",
+      "type": "Table",
+      "data_definition": "dd6611",
+      "graph_type": null,
+      "result_definitions": "dd6613",
+      "referenced_data_items": []
+    },
+    {
+      "name": "ve2855",
+      "label": "",
+      "type": "Table",
+      "data_definition": "dd2852",
+      "graph_type": null,
+      "result_definitions": "dd2854",
+      "referenced_data_items": []
+    },
+    {
+      "name": "ve379",
+      "label": "",
+      "type": "Table",
+      "data_definition": "dd372",
+      "graph_type": null,
+      "result_definitions": "dd374",
+      "referenced_data_items": []
+    },
+    {
+      "name": "ve152",
+      "label": "Dual Axis Bar-Line - Merchandise Hierarchy 3",
+      "type": "Graph",
+      "data_definition": "dd153",
+      "graph_type": "dualAxisBarLine",
+      "result_definitions": "dd155",
+      "referenced_data_items": []
+    },
+    {
+      "name": "ve166",
+      "label": "Dual Axis Bar-Line - Merchandise Hierarchy 1",
+      "type": "Graph",
+      "data_definition": "dd167",
+      "graph_type": "dualAxisBarLine",
+      "result_definitions": "dd169",
+      "referenced_data_items": []
+    },
+    {
+      "name": "ve179",
+      "label": "Dual Axis Bar-Line - Merchandise Hierarchy 2",
+      "type": "Graph",
+      "data_definition": "dd180",
+      "graph_type": "dualAxisBarLine",
+      "result_definitions": "dd182",
+      "referenced_data_items": []
+    },
+    {
+      "name": "ve371",
+      "label": "ROI Region Map",
+      "type": "Graph",
+      "data_definition": "dd372",
+      "graph_type": "geo",
+      "result_definitions": "dd374",
+      "referenced_data_items": []
+    },
+    {
+      "name": "ve73",
+      "label": "Key Value - Marketing Pct of Sales 3",
+      "type": "Graph",
+      "data_definition": "dd6611",
+      "graph_type": "keyValue",
+      "result_definitions": "dd6613",
+      "referenced_data_items": []
+    },
+    {
+      "name": "ve141",
+      "label": "Key Value - Marketing Pct of Sales 2",
+      "type": "Graph",
+      "data_definition": "dd6624",
+      "graph_type": "keyValue",
+      "result_definitions": "dd6626",
+      "referenced_data_items": []
+    },
+    {
+      "name": "ve97",
+      "label": "Key Value - Marketing Pct of Sales 1",
+      "type": "Graph",
+      "data_definition": "dd6629",
+      "graph_type": "keyValue",
+      "result_definitions": "dd6631",
+      "referenced_data_items": []
+    },
+    {
+      "name": "ve2851",
+      "label": "Sales vs Base Tree Map",
+      "type": "Graph",
+      "data_definition": "dd2852",
+      "graph_type": "treeMap",
+      "result_definitions": "dd2854",
+      "referenced_data_items": []
+    },
+    {
+      "name": "ve428",
+      "label": "Sales Region",
+      "type": "Graph",
+      "data_definition": "dd429",
+      "graph_type": "bar",
+      "result_definitions": "dd431",
+      "referenced_data_items": []
+    },
+    {
+      "name": "ve7225",
+      "label": "Gauge 1",
+      "type": "Graph",
+      "data_definition": "dd7231",
+      "graph_type": "keyValue",
+      "result_definitions": "dd7233",
+      "referenced_data_items": []
+    },
+    {
+      "name": "ve55",
+      "label": "Store Banner Dashboard Text",
+      "type": "Text",
+      "data_definition": "",
+      "graph_type": null,
+      "result_definitions": "",
+      "referenced_data_items": [],
+      "text_content": "View high-level metrics based on each banner's performance with respect to each other and across departments.   More information"
+    },
+    {
+      "name": "ve332",
+      "label": "Store Banner Dashboard Information Text",
+      "type": "Text",
+      "data_definition": "",
+      "graph_type": null,
+      "result_definitions": "",
+      "referenced_data_items": [],
+      "text_content": "Store Banner Dashboard   The Store Banner Dashboard compares the performance of three different store banners: FAST, GRAND and MODA. Each banner represents a different type of store.    Use the key value metrics along the top to quickly compare banners. Notice that MODA has a much higher marketing budget as a percent of its total sales, but the bar/line chart below shows that this is not translating to higher sales. This could be due to the merchandise categories of Health and Grocery.    The charts on the bottom show how sales and marketing budgets relate by store banner. Again, you can see that the MODA banner is lagging in sales performance in relation to its budget. Double-click on any bar to drill to the top five classifications within the category. Double-click on health under GRAND to see that \"face\" sales are less than a tenth of the marketing budget. Perhaps that marketing effort needs to be re-worked."
+    },
+    {
+      "name": "ve473",
+      "label": "Text 2",
+      "type": "Text",
+      "data_definition": "",
+      "graph_type": null,
+      "result_definitions": "",
+      "referenced_data_items": [],
+      "text_content": "Identify the performance of various regions and states. Use this analysis to make decisions on new store locations and store modifications and/or improvements using current and forecasted sales.  More information"
+    },
+    {
+      "name": "ve1153",
+      "label": "Geographic Effectiveness Information Text",
+      "type": "Text",
+      "data_definition": "",
+      "graph_type": null,
+      "result_definitions": "",
+      "referenced_data_items": [],
+      "text_content": "Geographic Effectiveness   The section helps you identify the performance of various regions and states.    The bar chart shows both regular and adjusted sales. Click the US Midwest bar to filter the map.     You can adjust sales by dragging the slider to the right or left to see the increase or decrease.  Adjust the sales to a 20% decrease.  You can see the difference in the region bar chart and the Geo Map.    The Geo Map shows the Adjusted ROI by state. If you hover over a state you will see important metrics about that state.    This type of analysis is useful for making decisions about new store locations, store modifications, and/or store improvements using current or forecasted sales."
+    },
+    {
+      "name": "ve2983",
+      "label": "Promotion Effectiveness Text",
+      "type": "Text",
+      "data_definition": "",
+      "graph_type": null,
+      "result_definitions": "",
+      "referenced_data_items": [],
+      "text_content": "Assess the success of promotions by comparing actual revenue to forecast and baseline revenue. Select individual products to further refine results.  More information"
+    },
+    {
+      "name": "ve4995",
+      "label": "Promotion Effectiveness Information Text",
+      "type": "Text",
+      "data_definition": "",
+      "graph_type": null,
+      "result_definitions": "",
+      "referenced_data_items": [],
+      "text_content": "Promotion Effectiveness   The Promotion Effectiveness report helps marketers know how promotions are performing compared with forecast and baseline. If a promotion performs well against a baseline, that shows effective targeting and offer management.  Showing the forecast also helps the department understand how close to  projections it is. Being far off of forecasts can lead to marketing budget mismanagement.   The top right of the report shows the overall metric on how a promotion performed. The results are compared with the baseline (the incremental impact) and the forecast (compared with the target), and the forecast is compared with the baseline (initial projected incremental impact). In this case, even though the promotion had an incremental impact, the forecast was too high. This could lead to revenue projections that are unattainable.   Select Iamz Puppy Large Breed from the left tile chart to highlight the corresponding Size, Age and Health table on the right. The Promotional Sales Lift also adjusts to the selected product.    If you select a value on the Small product line in the table, the four products associated will be highlighted."
+    },
+    {
+      "name": "ve7268",
+      "label": "Promotion Details",
+      "type": "Crosstab",
+      "data_definition": "dd7309",
+      "graph_type": null,
+      "result_definitions": "dd7311",
+      "referenced_data_items": []
+    },
+    {
+      "name": "ve7497",
+      "label": "Sales Change Filter",
+      "type": "Prompt",
+      "data_definition": "",
+      "graph_type": null,
+      "result_definitions": "",
+      "referenced_data_items": [],
+      "prompt_definition": ""
+    }
+  ]
+}

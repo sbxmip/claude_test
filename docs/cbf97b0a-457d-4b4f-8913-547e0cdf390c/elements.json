@@ -1,0 +1,1118 @@
+{
+  "report_id": "cbf97b0a-457d-4b4f-8913-547e0cdf390c",
+  "total_elements": 198,
+  "returned": 198,
+  "elements": [
+    {
+      "name": "vi6",
+      "label": "Store Banner Dashboard",
+      "type": "Section",
+      "hidden": false,
+      "version": 2
+    },
+    {
+      "name": "vi329",
+      "label": "Store Banner Dashboard Information",
+      "type": "HiddenSection",
+      "hidden": true,
+      "version": 2
+    },
+    {
+      "name": "vi361",
+      "label": "Geographic Effectiveness",
+      "type": "Section",
+      "hidden": false,
+      "version": 2
+    },
+    {
+      "name": "vi1150",
+      "label": "Geographic Effectiveness Information",
+      "type": "HiddenSection",
+      "hidden": true,
+      "version": 2
+    },
+    {
+      "name": "vi2827",
+      "label": "Promotion Effectiveness",
+      "type": "Section",
+      "hidden": false,
+      "version": 2
+    },
+    {
+      "name": "vi4992",
+      "label": "Promotion Effectiveness Information",
+      "type": "HiddenSection",
+      "hidden": true,
+      "version": 2
+    },
+    {
+      "name": "ve55",
+      "label": "Store Banner Dashboard Text",
+      "type": "Text",
+      "hidden": false,
+      "version": 2
+    },
+    {
+      "name": "ve152",
+      "label": "Dual Axis Bar-Line - Merchandise Hierarchy 3",
+      "type": "Graph",
+      "parent": "ve6619",
+      "hidden": false,
+      "version": 2
+    },
+    {
+      "name": "ve156",
+      "type": "Table",
+      "version": 2
+    },
+    {
+      "name": "ve166",
+      "label": "Dual Axis Bar-Line - Merchandise Hierarchy 1",
+      "type": "Graph",
+      "parent": "ve6621",
+      "hidden": false,
+      "version": 2
+    },
+    {
+      "name": "ve170",
+      "type": "Table",
+      "version": 2
+    },
+    {
+      "name": "ve179",
+      "label": "Dual Axis Bar-Line - Merchandise Hierarchy 2",
+      "type": "Graph",
+      "parent": "ve6623",
+      "hidden": false,
+      "version": 2
+    },
+    {
+      "name": "ve183",
+      "type": "Table",
+      "version": 2
+    },
+    {
+      "name": "ve332",
+      "label": "Store Banner Dashboard Information Text",
+      "type": "Text",
+      "hidden": false,
+      "version": 2
+    },
+    {
+      "name": "ve371",
+      "label": "ROI Region Map",
+      "type": "Graph",
+      "parent": "ve6637",
+      "hidden": false,
+      "version": 2
+    },
+    {
+      "name": "ve473",
+      "label": "Text 2",
+      "type": "Text",
+      "hidden": false,
+      "version": 2
+    },
+    {
+      "name": "ve1153",
+      "label": "Geographic Effectiveness Information Text",
+      "type": "Text",
+      "hidden": false,
+      "version": 2
+    },
+    {
+      "name": "ve2983",
+      "label": "Promotion Effectiveness Text",
+      "type": "Text",
+      "hidden": false,
+      "version": 2
+    },
+    {
+      "name": "ve4995",
+      "label": "Promotion Effectiveness Information Text",
+      "type": "Text",
+      "hidden": false,
+      "version": 2
+    },
+    {
+      "name": "ve73",
+      "label": "Key Value - Marketing Pct of Sales 3",
+      "type": "Graph",
+      "parent": "ve6619",
+      "hidden": false,
+      "version": 2
+    },
+    {
+      "name": "ve6617",
+      "label": "Layout Container 2",
+      "type": "VisualContainer",
+      "subType": "layout",
+      "hidden": false,
+      "version": 2
+    },
+    {
+      "name": "ve6619",
+      "label": "Layout Container 24",
+      "type": "VisualContainer",
+      "subType": "layout",
+      "parent": "ve6617",
+      "hidden": false,
+      "version": 2
+    },
+    {
+      "name": "ve6621",
+      "label": "Layout Container 26",
+      "type": "VisualContainer",
+      "subType": "layout",
+      "parent": "ve6617",
+      "hidden": false,
+      "version": 2
+    },
+    {
+      "name": "ve6623",
+      "label": "Layout Container 3",
+      "type": "VisualContainer",
+      "subType": "layout",
+      "parent": "ve6617",
+      "hidden": false,
+      "version": 2
+    },
+    {
+      "name": "ve141",
+      "label": "Key Value - Marketing Pct of Sales 2",
+      "type": "Graph",
+      "parent": "ve6623",
+      "hidden": false,
+      "version": 2
+    },
+    {
+      "name": "ve97",
+      "label": "Key Value - Marketing Pct of Sales 1",
+      "type": "Graph",
+      "parent": "ve6621",
+      "hidden": false,
+      "version": 2
+    },
+    {
+      "name": "ve6637",
+      "label": "Layout Container 5",
+      "type": "VisualContainer",
+      "subType": "layout",
+      "hidden": false,
+      "version": 2
+    },
+    {
+      "name": "ve2851",
+      "label": "Sales vs Base Tree Map",
+      "type": "Graph",
+      "parent": "ve7162",
+      "hidden": false,
+      "version": 2
+    },
+    {
+      "name": "ve6633",
+      "type": "Table",
+      "version": 2
+    },
+    {
+      "name": "ve6628",
+      "type": "Table",
+      "version": 2
+    },
+    {
+      "name": "ve428",
+      "label": "Sales Region",
+      "type": "Graph",
+      "parent": "ve7495",
+      "hidden": false,
+      "version": 2
+    },
+    {
+      "name": "ve432",
+      "type": "Table",
+      "version": 2
+    },
+    {
+      "name": "ve7162",
+      "label": "Layout Container 4",
+      "type": "VisualContainer",
+      "subType": "layout",
+      "hidden": false,
+      "version": 2
+    },
+    {
+      "name": "ve7164",
+      "label": "Layout Container 1",
+      "type": "VisualContainer",
+      "subType": "layout",
+      "parent": "ve7162",
+      "hidden": false,
+      "version": 2
+    },
+    {
+      "name": "ve7225",
+      "label": "Gauge 1",
+      "type": "Graph",
+      "parent": "ve7164",
+      "hidden": false,
+      "version": 2
+    },
+    {
+      "name": "ve7234",
+      "type": "Table",
+      "version": 2
+    },
+    {
+      "name": "ve7268",
+      "label": "Promotion Details",
+      "type": "Crosstab",
+      "parent": "ve7164",
+      "hidden": false,
+      "version": 2
+    },
+    {
+      "name": "ve6615",
+      "type": "Table",
+      "version": 2
+    },
+    {
+      "name": "ve7495",
+      "label": "Layout Container 6",
+      "type": "VisualContainer",
+      "subType": "layout",
+      "parent": "ve6637",
+      "hidden": false,
+      "version": 2
+    },
+    {
+      "name": "ve7497",
+      "label": "Sales Change Filter",
+      "type": "Prompt",
+      "parent": "ve7495",
+      "hidden": false,
+      "version": 2
+    },
+    {
+      "name": "ve2855",
+      "type": "Table",
+      "version": 2
+    },
+    {
+      "name": "ve379",
+      "type": "Table",
+      "version": 2
+    },
+    {
+      "name": "bi158",
+      "type": "MultidimensionalDataItem",
+      "version": 2
+    },
+    {
+      "name": "bi159",
+      "type": "RelationalDataItem",
+      "version": 2
+    },
+    {
+      "name": "bi160",
+      "type": "RelationalDataItem",
+      "version": 2
+    },
+    {
+      "name": "bi161",
+      "type": "RelationalDataItem",
+      "version": 2
+    },
+    {
+      "name": "bi162",
+      "type": "RelationalFilterItem",
+      "version": 2
+    },
+    {
+      "name": "bi163",
+      "type": "RelationalDataItem",
+      "version": 2
+    },
+    {
+      "name": "bi171",
+      "type": "MultidimensionalDataItem",
+      "version": 2
+    },
+    {
+      "name": "bi172",
+      "type": "RelationalDataItem",
+      "version": 2
+    },
+    {
+      "name": "bi173",
+      "type": "RelationalDataItem",
+      "version": 2
+    },
+    {
+      "name": "bi174",
+      "type": "RelationalDataItem",
+      "version": 2
+    },
+    {
+      "name": "bi175",
+      "type": "RelationalFilterItem",
+      "version": 2
+    },
+    {
+      "name": "bi176",
+      "type": "RelationalDataItem",
+      "version": 2
+    },
+    {
+      "name": "bi184",
+      "type": "MultidimensionalDataItem",
+      "version": 2
+    },
+    {
+      "name": "bi185",
+      "type": "RelationalDataItem",
+      "version": 2
+    },
+    {
+      "name": "bi186",
+      "type": "RelationalDataItem",
+      "version": 2
+    },
+    {
+      "name": "bi187",
+      "type": "RelationalDataItem",
+      "version": 2
+    },
+    {
+      "name": "bi188",
+      "type": "RelationalFilterItem",
+      "version": 2
+    },
+    {
+      "name": "bi189",
+      "type": "RelationalDataItem",
+      "version": 2
+    },
+    {
+      "name": "bi7966",
+      "type": "RelationalDataItem",
+      "version": 2
+    },
+    {
+      "name": "bi7088",
+      "type": "RelationalFilterItem",
+      "version": 2
+    },
+    {
+      "name": "bi7967",
+      "type": "RelationalDataItem",
+      "version": 2
+    },
+    {
+      "name": "bi7970",
+      "type": "RelationalDataItem",
+      "version": 2
+    },
+    {
+      "name": "bi7971",
+      "type": "RelationalDataItem",
+      "version": 2
+    },
+    {
+      "name": "bi7972",
+      "type": "RelationalDataItem",
+      "version": 2
+    },
+    {
+      "name": "bi7973",
+      "type": "RelationalDataItem",
+      "version": 2
+    },
+    {
+      "name": "bi7954",
+      "type": "MultidimensionalDataItem",
+      "version": 2
+    },
+    {
+      "name": "bi6697",
+      "type": "Item",
+      "version": 2
+    },
+    {
+      "name": "bi7975",
+      "type": "Item",
+      "version": 2
+    },
+    {
+      "name": "bi7976",
+      "type": "Item",
+      "version": 2
+    },
+    {
+      "name": "bi7977",
+      "type": "Item",
+      "version": 2
+    },
+    {
+      "name": "bi7978",
+      "type": "Item",
+      "version": 2
+    },
+    {
+      "name": "bi7979",
+      "type": "Item",
+      "version": 2
+    },
+    {
+      "name": "bi7980",
+      "type": "Item",
+      "version": 2
+    },
+    {
+      "name": "bi7981",
+      "type": "Item",
+      "version": 2
+    },
+    {
+      "name": "bi7532",
+      "type": "Item",
+      "version": 2
+    },
+    {
+      "name": "bi6695",
+      "type": "Item",
+      "version": 2
+    },
+    {
+      "name": "bi6696",
+      "type": "Item",
+      "version": 2
+    },
+    {
+      "name": "bi82",
+      "type": "RelationalFilterItem",
+      "version": 2
+    },
+    {
+      "name": "bi81",
+      "type": "RelationalDataItem",
+      "version": 2
+    },
+    {
+      "name": "bi6657",
+      "type": "RelationalDataItem",
+      "version": 2
+    },
+    {
+      "name": "bi7441",
+      "type": "RelationalDataItem",
+      "version": 2
+    },
+    {
+      "name": "bi146",
+      "type": "RelationalDataItem",
+      "version": 2
+    },
+    {
+      "name": "bi149",
+      "type": "RelationalFilterItem",
+      "version": 2
+    },
+    {
+      "name": "bi148",
+      "type": "RelationalDataItem",
+      "version": 2
+    },
+    {
+      "name": "bi84",
+      "type": "RelationalDataItem",
+      "version": 2
+    },
+    {
+      "name": "bi86",
+      "type": "RelationalFilterItem",
+      "version": 2
+    },
+    {
+      "name": "bi85",
+      "type": "RelationalDataItem",
+      "version": 2
+    },
+    {
+      "name": "bi2856",
+      "type": "RelationalDataItem",
+      "version": 2
+    },
+    {
+      "name": "bi2858",
+      "type": "RelationalDataItem",
+      "version": 2
+    },
+    {
+      "name": "bi4696",
+      "type": "RelationalFilterItem",
+      "version": 2
+    },
+    {
+      "name": "bi7111",
+      "type": "RelationalDataItem",
+      "version": 2
+    },
+    {
+      "name": "bi7552",
+      "type": "RelationalDataItem",
+      "version": 2
+    },
+    {
+      "name": "bi7628",
+      "type": "RelationalDataItem",
+      "version": 2
+    },
+    {
+      "name": "bi7955",
+      "type": "RelationalDataItem",
+      "version": 2
+    },
+    {
+      "name": "bi7956",
+      "type": "RelationalDataItem",
+      "version": 2
+    },
+    {
+      "name": "bi7957",
+      "type": "RelationalDataItem",
+      "version": 2
+    },
+    {
+      "name": "bi435",
+      "type": "RelationalDataItem",
+      "version": 2
+    },
+    {
+      "name": "bi436",
+      "type": "RelationalDataItem",
+      "version": 2
+    },
+    {
+      "name": "bi6506",
+      "type": "MultidimensionalDataItem",
+      "version": 2
+    },
+    {
+      "name": "bi7089",
+      "type": "RelationalDataItem",
+      "version": 2
+    },
+    {
+      "name": "bi7090",
+      "type": "RelationalFilterItem",
+      "version": 2
+    },
+    {
+      "name": "bi7237",
+      "type": "RelationalDataItem",
+      "version": 2
+    },
+    {
+      "name": "bi7238",
+      "type": "RelationalDataItem",
+      "version": 2
+    },
+    {
+      "name": "bi7958",
+      "type": "RelationalDataItem",
+      "version": 2
+    },
+    {
+      "name": "bi7272",
+      "type": "RelationalDataItem",
+      "version": 2
+    },
+    {
+      "name": "bi7273",
+      "type": "RelationalDataItem",
+      "version": 2
+    },
+    {
+      "name": "bi7275",
+      "type": "RelationalDataItem",
+      "version": 2
+    },
+    {
+      "name": "bi7290",
+      "type": "RelationalDataItem",
+      "version": 2
+    },
+    {
+      "name": "bi7292",
+      "type": "RelationalDataItem",
+      "version": 2
+    },
+    {
+      "name": "bi7287",
+      "type": "RelationalFilterItem",
+      "version": 2
+    },
+    {
+      "name": "bi7620",
+      "type": "RelationalDataItem",
+      "version": 2
+    },
+    {
+      "name": "bi7959",
+      "type": "RelationalDataItem",
+      "version": 2
+    },
+    {
+      "name": "ds10",
+      "label": "RAND_RETAILDEMO",
+      "type": "DataSource",
+      "version": 2
+    },
+    {
+      "name": "bi11",
+      "type": "DataItem",
+      "version": 2
+    },
+    {
+      "name": "bi12",
+      "type": "DataItem",
+      "version": 2
+    },
+    {
+      "name": "bi13",
+      "type": "DataItem",
+      "version": 2
+    },
+    {
+      "name": "bi14",
+      "type": "DataItem",
+      "version": 2
+    },
+    {
+      "name": "bi15",
+      "type": "DataItem",
+      "version": 2
+    },
+    {
+      "name": "bi16",
+      "type": "DataItem",
+      "version": 2
+    },
+    {
+      "name": "bi17",
+      "type": "DataItem",
+      "version": 2
+    },
+    {
+      "name": "bi18",
+      "type": "DataItem",
+      "version": 2
+    },
+    {
+      "name": "bi19",
+      "type": "DataItem",
+      "version": 2
+    },
+    {
+      "name": "bi20",
+      "type": "DataItem",
+      "version": 2
+    },
+    {
+      "name": "bi21",
+      "type": "DataItem",
+      "version": 2
+    },
+    {
+      "name": "bi22",
+      "type": "DataItem",
+      "version": 2
+    },
+    {
+      "name": "bi23",
+      "type": "DataItem",
+      "version": 2
+    },
+    {
+      "name": "bi24",
+      "type": "DataItem",
+      "version": 2
+    },
+    {
+      "name": "bi25",
+      "type": "DataItem",
+      "version": 2
+    },
+    {
+      "name": "bi26",
+      "type": "DataItem",
+      "version": 2
+    },
+    {
+      "name": "bi27",
+      "type": "DataItem",
+      "version": 2
+    },
+    {
+      "name": "bi28",
+      "type": "DataItem",
+      "version": 2
+    },
+    {
+      "name": "bi29",
+      "type": "DataItem",
+      "version": 2
+    },
+    {
+      "name": "bi30",
+      "type": "DataItem",
+      "version": 2
+    },
+    {
+      "name": "bi31",
+      "type": "DataItem",
+      "version": 2
+    },
+    {
+      "name": "bi32",
+      "type": "DataItem",
+      "version": 2
+    },
+    {
+      "name": "bi33",
+      "type": "DataItem",
+      "version": 2
+    },
+    {
+      "name": "bi34",
+      "type": "DataItem",
+      "version": 2
+    },
+    {
+      "name": "bi35",
+      "type": "DataItem",
+      "version": 2
+    },
+    {
+      "name": "bi36",
+      "type": "DataItem",
+      "version": 2
+    },
+    {
+      "name": "bi37",
+      "type": "DataItem",
+      "version": 2
+    },
+    {
+      "name": "bi38",
+      "type": "DataItem",
+      "version": 2
+    },
+    {
+      "name": "bi39",
+      "type": "DataItem",
+      "version": 2
+    },
+    {
+      "name": "bi40",
+      "type": "DataItem",
+      "version": 2
+    },
+    {
+      "name": "bi41",
+      "type": "DataItem",
+      "version": 2
+    },
+    {
+      "name": "bi42",
+      "type": "DataItem",
+      "version": 2
+    },
+    {
+      "name": "bi43",
+      "type": "DataItem",
+      "version": 2
+    },
+    {
+      "name": "bi44",
+      "type": "DataItem",
+      "version": 2
+    },
+    {
+      "name": "bi45",
+      "type": "DataItem",
+      "version": 2
+    },
+    {
+      "name": "bi46",
+      "type": "DataItem",
+      "version": 2
+    },
+    {
+      "name": "bi47",
+      "type": "DataItem",
+      "version": 2
+    },
+    {
+      "name": "bi49",
+      "type": "DataItem",
+      "version": 2
+    },
+    {
+      "name": "bi50",
+      "type": "DataItem",
+      "version": 2
+    },
+    {
+      "name": "bi51",
+      "label": "Frequency",
+      "type": "SourcePredefinedDataItem",
+      "version": 2
+    },
+    {
+      "name": "bi52",
+      "label": "Frequency Percent",
+      "type": "SourcePredefinedDataItem",
+      "version": 2
+    },
+    {
+      "name": "bi78",
+      "label": "Marketing Pct of Sales",
+      "type": "AggregateCalculatedItem",
+      "version": 2
+    },
+    {
+      "name": "bi157",
+      "label": "Merchandise Hierarchy",
+      "type": "Hierarchy",
+      "version": 2
+    },
+    {
+      "name": "bi234",
+      "label": "Transaction MMYYYY",
+      "type": "DataItem",
+      "version": 2
+    },
+    {
+      "name": "bi362",
+      "label": "State -  Region",
+      "type": "DataItem",
+      "version": 2
+    },
+    {
+      "name": "bi381",
+      "label": "Adjusted Sales",
+      "type": "CalculatedItem",
+      "version": 2
+    },
+    {
+      "name": "bi382",
+      "label": "Regular Sales Avg",
+      "type": "DataItem",
+      "version": 2
+    },
+    {
+      "name": "bi383",
+      "label": "Sales per SQFT",
+      "type": "AggregateCalculatedItem",
+      "version": 2
+    },
+    {
+      "name": "bi477",
+      "label": "ROI",
+      "type": "AggregateCalculatedItem",
+      "version": 2
+    },
+    {
+      "name": "bi478",
+      "label": "Adjusted Sales Cost",
+      "type": "CalculatedItem",
+      "version": 2
+    },
+    {
+      "name": "bi479",
+      "label": "Adjust ROI",
+      "type": "AggregateCalculatedItem",
+      "version": 2
+    },
+    {
+      "name": "bi1488",
+      "label": "Transaction Date DOW",
+      "type": "DataItem",
+      "version": 2
+    },
+    {
+      "name": "bi2419",
+      "type": "DataItem",
+      "version": 2
+    },
+    {
+      "name": "bi6322",
+      "label": "Custom Region",
+      "type": "DataItem",
+      "version": 2
+    },
+    {
+      "name": "bi6456",
+      "label": "Hierarchy 1",
+      "type": "Hierarchy",
+      "version": 2
+    },
+    {
+      "name": "bi6505",
+      "label": "Hierarchy 2",
+      "type": "Hierarchy",
+      "version": 2
+    },
+    {
+      "name": "ds378",
+      "label": "EsriMapProvider",
+      "type": "DataSource",
+      "version": 2
+    },
+    {
+      "name": "ds1351",
+      "label": "PROMO_EFFECTIVENESS_X_EFFECTS_2",
+      "type": "DataSource",
+      "version": 2
+    },
+    {
+      "name": "bi1352",
+      "type": "DataItem",
+      "version": 2
+    },
+    {
+      "name": "bi1353",
+      "type": "DataItem",
+      "version": 2
+    },
+    {
+      "name": "bi1354",
+      "type": "DataItem",
+      "version": 2
+    },
+    {
+      "name": "bi1355",
+      "type": "DataItem",
+      "version": 2
+    },
+    {
+      "name": "bi1356",
+      "type": "DataItem",
+      "version": 2
+    },
+    {
+      "name": "bi1357",
+      "type": "DataItem",
+      "version": 2
+    },
+    {
+      "name": "bi1358",
+      "type": "DataItem",
+      "version": 2
+    },
+    {
+      "name": "bi1359",
+      "type": "DataItem",
+      "version": 2
+    },
+    {
+      "name": "bi1360",
+      "type": "DataItem",
+      "version": 2
+    },
+    {
+      "name": "bi1361",
+      "type": "DataItem",
+      "version": 2
+    },
+    {
+      "name": "bi1362",
+      "type": "DataItem",
+      "version": 2
+    },
+    {
+      "name": "bi1363",
+      "label": "Frequency",
+      "type": "SourcePredefinedDataItem",
+      "version": 2
+    },
+    {
+      "name": "bi1364",
+      "label": "Frequency Percent",
+      "type": "SourcePredefinedDataItem",
+      "version": 2
+    },
+    {
+      "name": "bi2869",
+      "label": "Actual vs Forecast",
+      "type": "AggregateCalculatedItem",
+      "version": 2
+    },
+    {
+      "name": "bi2872",
+      "label": "Actual vs Baseline",
+      "type": "AggregateCalculatedItem",
+      "version": 2
+    },
+    {
+      "name": "bi3643",
+      "label": "Forecast vs Baseline",
+      "type": "AggregateCalculatedItem",
+      "version": 2
+    },
+    {
+      "name": "bi3681",
+      "label": "Product Size",
+      "type": "GroupedItem",
+      "version": 2
+    },
+    {
+      "name": "bi3698",
+      "label": "Product Age",
+      "type": "GroupedItem",
+      "version": 2
+    },
+    {
+      "name": "bi3854",
+      "label": "Product Health",
+      "type": "GroupedItem",
+      "version": 2
+    },
+    {
+      "name": "ac7107",
+      "label": "Store Banner Dashboard Information",
+      "type": "NavigationAction",
+      "version": 2
+    },
+    {
+      "name": "ac7109",
+      "label": "Geographic Effectiveness Information",
+      "type": "NavigationAction",
+      "version": 2
+    },
+    {
+      "name": "ac7177",
+      "label": "Promotion Effectiveness Information",
+      "type": "NavigationAction",
+      "version": 2
+    },
+    {
+      "name": "ms1",
+      "type": "MediaScheme",
+      "version": 2
+    },
+    {
+      "name": "pr380",
+      "label": "Sales Change",
+      "type": "PromptDefinition",
+      "version": 2
+    },
+    {
+      "name": "pr424",
+      "label": "Cost Change",
+      "type": "PromptDefinition",
+      "version": 2
+    }
+  ]
+}

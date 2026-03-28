@@ -1,0 +1,23 @@
+{
+  "report_id": "cbf97b0a-457d-4b4f-8913-547e0cdf390c",
+  "saved_count": 1,
+  "error_count": 2,
+  "saved": [
+    {
+      "section_index": 0,
+      "section_label": "Store Banner Dashboard",
+      "output_path": "/workspace/claude-smoke/docs/cbf97b0a-457d-4b4f-8913-547e0cdf390c/screenshots/00_Store Banner Dashboard.png",
+      "bytes": 157342
+    }
+  ],
+  "errors": [
+    {
+      "section_index": 1,
+      "error": "section_index 1 out of range (got 1 sections)"
+    },
+    {
+      "section_index": 2,
+      "error": "section_index 2 out of range (got 1 sections)"
+    }
+  ]
+}

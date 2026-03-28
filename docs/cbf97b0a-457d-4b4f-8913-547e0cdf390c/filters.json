@@ -1,0 +1,152 @@
+{
+  "report_id": "cbf97b0a-457d-4b4f-8913-547e0cdf390c",
+  "filter_count": 13,
+  "filters": [
+    {
+      "parent_definition": "dd153",
+      "data_source": "ds10",
+      "filter_type": "detail",
+      "business_item_ref": "bi162"
+    },
+    {
+      "parent_definition": "dd153",
+      "data_source": "ds10",
+      "filter_type": "rank",
+      "rank_by": "bi159",
+      "group_by": "bi158",
+      "n": "5",
+      "subset": "top",
+      "include_ties": "true"
+    },
+    {
+      "parent_definition": "dd167",
+      "data_source": "ds10",
+      "filter_type": "detail",
+      "business_item_ref": "bi175"
+    },
+    {
+      "parent_definition": "dd167",
+      "data_source": "ds10",
+      "filter_type": "rank",
+      "rank_by": "bi172",
+      "group_by": "bi171",
+      "n": "5",
+      "subset": "top",
+      "include_ties": "true"
+    },
+    {
+      "parent_definition": "dd180",
+      "data_source": "ds10",
+      "filter_type": "detail",
+      "business_item_ref": "bi188"
+    },
+    {
+      "parent_definition": "dd180",
+      "data_source": "ds10",
+      "filter_type": "rank",
+      "rank_by": "bi185",
+      "group_by": "bi184",
+      "n": "5",
+      "subset": "top",
+      "include_ties": "true"
+    },
+    {
+      "parent_definition": "dd372",
+      "data_source": "ds10",
+      "filter_type": "detail",
+      "business_item_ref": "bi7088"
+    },
+    {
+      "parent_definition": "dd6611",
+      "data_source": "ds10",
+      "filter_type": "detail",
+      "business_item_ref": "bi82"
+    },
+    {
+      "parent_definition": "dd6624",
+      "data_source": "ds10",
+      "filter_type": "detail",
+      "business_item_ref": "bi149"
+    },
+    {
+      "parent_definition": "dd6629",
+      "data_source": "ds10",
+      "filter_type": "detail",
+      "business_item_ref": "bi86"
+    },
+    {
+      "parent_definition": "dd2852",
+      "data_source": "ds1351",
+      "filter_type": "detail",
+      "business_item_ref": "bi4696"
+    },
+    {
+      "parent_definition": "dd429",
+      "data_source": "ds10",
+      "filter_type": "detail",
+      "business_item_ref": "bi7090"
+    },
+    {
+      "parent_definition": "dd7309",
+      "data_source": "ds1351",
+      "filter_type": "detail",
+      "business_item_ref": "bi7287"
+    }
+  ],
+  "prompt_count": 2,
+  "prompts": [
+    {
+      "name": "pr380",
+      "label": "Sales Change",
+      "type": ""
+    },
+    {
+      "name": "pr424",
+      "label": "Cost Change",
+      "type": ""
+    }
+  ],
+  "filter_expression_count": 10,
+  "filter_expressions": [
+    {
+      "name": "bi162",
+      "expression": "or(in(${bi161,binned},'FAST'),ismissing(${bi161,binned}))"
+    },
+    {
+      "name": "bi175",
+      "expression": "or(in(${bi174,binned},'GRAND'),ismissing(${bi174,binned}))"
+    },
+    {
+      "name": "bi188",
+      "expression": "or(in(${bi187,binned},'MODA'),ismissing(${bi187,binned}))"
+    },
+    {
+      "name": "bi7088",
+      "expression": "or(in(${bi7966,binned},'AL','AR','AZ','CA','CO','CT','DC','DE','FL','GA','IA','IL','KS','KY','LA','MA','MD','MI','MN','MO','MT','NC','NH','NJ','NM','NV','NY','OH','OK','OR','PA','RI','SC','SD','TN','TX','UT','VA','VT','WA','WV'),ismissing(${bi7966,binned}))"
+    },
+    {
+      "name": "bi82",
+      "expression": "in(${bi81,binned},'FAST')"
+    },
+    {
+      "name": "bi149",
+      "expression": "or(in(${bi148,binned},'MODA'),ismissing(${bi148,binned}))"
+    },
+    {
+      "name": "bi86",
+      "expression": "in(${bi85,binned},'GRAND')"
+    },
+    {
+      "name": "bi4696",
+      "expression": "in(${bi2856,binned},'Iamz Dog Active Maturity 1X17.4 LB','Iamz Dog Hlth Natl Bag 1X15.5 LB','Iamz Dog Lamb and Rice 1X17.4 LB','Iamz Dog Large Breed 1X17.4 LB','Iamz Dog Mini Chunks 1X17.4 LB','Iamz Dog Small Breed 4X7 LB','Iamz Dog Weight Cntrl Lrg Breed 1X17.4 L','Iamz Dog Weight Control 1X17.4 LB','Iamz Healthy Nat Weight Control 4X7 LB','Iamz Mini Chunks 5x4.0 LB','Iamz Puppy Large Breed 1X17.4 LB','Iamz Smart Puppy Original 1X17.4 LB')"
+    },
+    {
+      "name": "bi7090",
+      "expression": "or(in(${bi7089,binned},'AL','AR','AZ','CA','CO','CT','DC','DE','FL','GA','IA','IL','KS','KY','LA','MA','MD','MI','MN','MO','MT','NC','NH','NJ','NM','NV','NY','OH','OK','OR','PA','RI','SC','SD','TN','TX','UT','VA','VT','WA','WV'),ismissing(${bi7089,binned}))"
+    },
+    {
+      "name": "bi7287",
+      "expression": "notMissing(${bi7272,binned})"
+    }
+  ]
+}

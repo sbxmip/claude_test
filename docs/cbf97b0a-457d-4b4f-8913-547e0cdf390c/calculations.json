@@ -1,0 +1,102 @@
+{
+  "report_id": "cbf97b0a-457d-4b4f-8913-547e0cdf390c",
+  "calculation_count": 12,
+  "calculations": [
+    {
+      "name": "bi381",
+      "label": "Adjusted Sales",
+      "type": "CalculatedItem",
+      "expression": "cond(in(${bi31,binned},'US_MW','US_CS','US_AT','LATA','EU','ASIA'),times(${bi36,raw},plus(0.85,#{pr380})),times(${bi36,raw},plus(1,#{pr380})))",
+      "classification": "",
+      "aggregation": "sum"
+    },
+    {
+      "name": "bi478",
+      "label": "Adjusted Sales Cost",
+      "type": "CalculatedItem",
+      "expression": "times(${bi37,raw},plus(1,#{pr424}))",
+      "classification": "",
+      "aggregation": "sum"
+    },
+    {
+      "name": "bi78",
+      "label": "Marketing Pct of Sales",
+      "type": "AggregateCalculatedItem",
+      "expression": "div(aggregate(average,group,${bi25,raw}),aggregate(sum,group,${bi36,raw}))",
+      "classification": "",
+      "aggregation": ""
+    },
+    {
+      "name": "bi383",
+      "label": "Sales per SQFT",
+      "type": "AggregateCalculatedItem",
+      "expression": "div(aggregate(sum,group,${bi36,raw}),aggregate(average,group,${bi45,raw}))",
+      "classification": "",
+      "aggregation": ""
+    },
+    {
+      "name": "bi477",
+      "label": "ROI",
+      "type": "AggregateCalculatedItem",
+      "expression": "div(minus(aggregate(sum,group,${bi36,raw}),aggregate(sum,group,${bi37,raw})),aggregate(sum,group,${bi37,raw}))",
+      "classification": "",
+      "aggregation": ""
+    },
+    {
+      "name": "bi479",
+      "label": "Adjust ROI",
+      "type": "AggregateCalculatedItem",
+      "expression": "div(minus(aggregate(sum,group,${bi381,raw}),aggregate(sum,group,${bi478,raw})),aggregate(sum,group,${bi478,raw}))",
+      "classification": "",
+      "aggregation": ""
+    },
+    {
+      "name": "bi2869",
+      "label": "Actual vs Forecast",
+      "type": "AggregateCalculatedItem",
+      "expression": "div(minus(aggregate(sum,group,${bi1352,raw}),aggregate(sum,group,${bi1354,raw})),aggregate(sum,group,${bi1354,raw}))",
+      "classification": "",
+      "aggregation": ""
+    },
+    {
+      "name": "bi2872",
+      "label": "Actual vs Baseline",
+      "type": "AggregateCalculatedItem",
+      "expression": "div(minus(aggregate(sum,group,${bi1352,raw}),aggregate(sum,group,${bi1353,raw})),aggregate(sum,group,${bi1353,raw}))",
+      "classification": "",
+      "aggregation": ""
+    },
+    {
+      "name": "bi3643",
+      "label": "Forecast vs Baseline",
+      "type": "AggregateCalculatedItem",
+      "expression": "div(minus(aggregate(sum,group,${bi1354,raw}),aggregate(sum,group,${bi1353,raw})),aggregate(sum,group,${bi1353,raw}))",
+      "classification": "",
+      "aggregation": ""
+    },
+    {
+      "name": "bi3681",
+      "label": "Product Size",
+      "type": "GroupedItem",
+      "expression": "",
+      "classification": "",
+      "aggregation": ""
+    },
+    {
+      "name": "bi3698",
+      "label": "Product Age",
+      "type": "GroupedItem",
+      "expression": "",
+      "classification": "",
+      "aggregation": ""
+    },
+    {
+      "name": "bi3854",
+      "label": "Product Health",
+      "type": "GroupedItem",
+      "expression": "",
+      "classification": "",
+      "aggregation": ""
+    }
+  ]
+}

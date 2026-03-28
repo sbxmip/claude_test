@@ -1,0 +1,48 @@
+{
+  "report_id": "cbf97b0a-457d-4b4f-8913-547e0cdf390c",
+  "section_count": 6,
+  "sections": [
+    {
+      "index": 0,
+      "name": "vi6",
+      "label": "Store Banner Dashboard",
+      "type": "Section",
+      "hidden": false
+    },
+    {
+      "index": 1,
+      "name": "vi329",
+      "label": "Store Banner Dashboard Information",
+      "type": "HiddenSection",
+      "hidden": true
+    },
+    {
+      "index": 2,
+      "name": "vi361",
+      "label": "Geographic Effectiveness",
+      "type": "Section",
+      "hidden": false
+    },
+    {
+      "index": 3,
+      "name": "vi1150",
+      "label": "Geographic Effectiveness Information",
+      "type": "HiddenSection",
+      "hidden": true
+    },
+    {
+      "index": 4,
+      "name": "vi2827",
+      "label": "Promotion Effectiveness",
+      "type": "Section",
+      "hidden": false
+    },
+    {
+      "index": 5,
+      "name": "vi4992",
+      "label": "Promotion Effectiveness Information",
+      "type": "HiddenSection",
+      "hidden": true
+    }
+  ]
+}
