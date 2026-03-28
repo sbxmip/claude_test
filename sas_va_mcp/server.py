@@ -553,6 +553,30 @@ def parse_filters_and_prompts(report_id: str) -> dict:
 
 # ── Tool 11: Screenshot of one section ────────────────────────────────────────
 
+def _visible_to_absolute_section_index(report_id: str, visible_index: int) -> int:
+    """
+    The reportImages API uses sectionIndex counting ALL sections (visible + hidden).
+    This converts a zero-based visible-section index to the absolute index needed by the API.
+    """
+    r = _get(
+        f"/reports/reports/{report_id}/content/elements",
+        accept="application/vnd.sas.collection+json",
+    )
+    r.raise_for_status()
+    items = r.json().get("items", [])
+    # Walk all Section/HiddenSection elements in order, tracking absolute position
+    abs_pos = 0
+    visible_count = 0
+    for item in items:
+        if item.get("type") in ("Section", "HiddenSection"):
+            if item.get("type") == "Section":
+                if visible_count == visible_index:
+                    return abs_pos
+                visible_count += 1
+            abs_pos += 1
+    raise ValueError(f"Visible section index {visible_index} not found (only {visible_count} visible sections)")
+
+
 @mcp.tool()
 def get_section_screenshot(
     report_id: str,
@@ -562,20 +586,28 @@ def get_section_screenshot(
 ) -> dict:
     """
     Get a PNG screenshot of a specific report section, returned as a base64 string.
-    Use get_report_sections first to find the correct section_index.
+    section_index is the zero-based index among VISIBLE sections only
+    (as returned by get_report_sections).
 
     Args:
         report_id: The report UUID
-        section_index: Zero-based index of the section/page to capture
+        section_index: Zero-based visible-section index (0 = first visible page)
         width: Image width in pixels (default 1920)
         height: Image height in pixels (default 1080)
     """
+    # Resolve to the absolute sectionIndex the API expects (counts hidden sections too)
+    try:
+        abs_index = _visible_to_absolute_section_index(report_id, section_index)
+    except ValueError as e:
+        return {"error": str(e)}
+
     payload = json.dumps({
         "reportUri": f"/reports/reports/{report_id}",
         "layoutType": "entireSection",
         "selectionType": "report",
         "size": f"{width}x{height}",
         "imageType": "png",
+        "sectionIndex": abs_index,
     })
 
     r = _post(
@@ -595,16 +627,10 @@ def get_section_screenshot(
         return {"error": "Image job failed", "job": job}
 
     images = job.get("images", [])
-    if section_index >= len(images):
-        return {
-            "error": f"section_index {section_index} out of range (got {len(images)} sections)",
-            "available_sections": [
-                {"index": i, "label": img.get("sectionLabel"), "name": img.get("sectionName")}
-                for i, img in enumerate(images)
-            ],
-        }
+    if not images:
+        return {"error": "No images returned by job", "job_state": job.get("state")}
 
-    img_meta = images[section_index]
+    img_meta = images[0]  # job for a single sectionIndex always returns 1 image
     link = next((l for l in img_meta.get("links", []) if l.get("rel") == "image"), None)
     if not link:
         return {"error": "No image link in job response", "image_meta": img_meta}
