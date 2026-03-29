@@ -1,0 +1,20 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "fabric-mcp"
+version = "0.1.0"
+description = "Microsoft Fabric MCP Server for SAS VA → Power BI migration"
+requires-python = ">=3.11"
+dependencies = [
+    "mcp[cli]>=1.3.0",
+    "httpx>=0.27.0",
+    "msal>=1.28.0",
+]
+
+[project.scripts]
+fabric-mcp = "fabric_mcp.server:mcp.run"
+
+[tool.hatch.build.targets.wheel]
+packages = ["fabric_mcp"]

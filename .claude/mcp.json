@@ -8,6 +8,16 @@
         "VIYA_USERNAME": "${VIYA_USERNAME}",
         "VIYA_PASSWORD": "${VIYA_PASSWORD}"
       }
+    },
+    "fabric": {
+      "command": "python3",
+      "args": ["/workspace/claude-smoke/fabric_mcp/server.py"],
+      "env": {
+        "FABRIC_TENANT_ID": "${FABRIC_TENANT_ID}",
+        "FABRIC_CLIENT_ID": "${FABRIC_CLIENT_ID}",
+        "FABRIC_CLIENT_SECRET": "${FABRIC_CLIENT_SECRET}",
+        "FABRIC_WORKSPACE_ID": "${FABRIC_WORKSPACE_ID}"
+      }
     }
   }
 }
