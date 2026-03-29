@@ -1,0 +1,228 @@
+table RAND_RETAILDEMO
+
+    column 'Brand Name 1'
+        dataType: string
+        sourceColumn: brand_name1
+        summarizeBy: none
+
+    column 'Channel Type'
+        dataType: string
+        sourceColumn: ChannelType
+        summarizeBy: none
+
+    column City
+        dataType: string
+        sourceColumn: City
+        summarizeBy: none
+
+    column Country
+        dataType: string
+        sourceColumn: Country
+        summarizeBy: none
+
+    column 'Age Bucket'
+        dataType: string
+        sourceColumn: age_bucket
+        summarizeBy: none
+
+    column 'Customer ID'
+        dataType: string
+        sourceColumn: CustID
+        summarizeBy: none
+
+    column 'Loyalty Card'
+        dataType: string
+        sourceColumn: loyalty_card
+        summarizeBy: none
+
+    column Bucket
+        dataType: string
+        sourceColumn: bucket
+        summarizeBy: none
+
+    column MDY
+        dataType: string
+        sourceColumn: MDY
+        summarizeBy: none
+
+    column 'Brand Name'
+        dataType: string
+        sourceColumn: brand_name
+        summarizeBy: none
+
+    column Class
+        dataType: string
+        sourceColumn: Class
+        summarizeBy: none
+
+    column Department
+        dataType: string
+        sourceColumn: Department
+        summarizeBy: none
+
+    column Region
+        dataType: string
+        sourceColumn: Region
+        summarizeBy: none
+
+    column 'Region 2'
+        dataType: string
+        sourceColumn: Region_2
+        summarizeBy: none
+
+    column State
+        dataType: string
+        sourceColumn: State
+        summarizeBy: none
+
+    column 'Store Chain'
+        dataType: string
+        sourceColumn: Storechain
+        summarizeBy: none
+
+    column 'Store Chain 1'
+        dataType: string
+        sourceColumn: Storechain1
+        summarizeBy: none
+
+    column 'Store Number'
+        dataType: string
+        sourceColumn: StoreNum
+        summarizeBy: none
+
+    column 'Transaction Date'
+        dataType: dateTime
+        sourceColumn: Date
+        summarizeBy: none
+        formatString: General Date
+
+    column 'Transaction Day of Week'
+        dataType: string
+        sourceColumn: trx_dow_new
+        summarizeBy: none
+
+    column 'Transaction Time of Day'
+        dataType: string
+        sourceColumn: trx_tod
+        summarizeBy: none
+
+    column 'Transaction Hour'
+        dataType: string
+        sourceColumn: trx_hr_char
+        summarizeBy: none
+
+    column Year
+        dataType: int64
+        sourceColumn: Year
+        summarizeBy: none
+
+    column Sales
+        dataType: decimal
+        sourceColumn: Sales
+        summarizeBy: sum
+        formatString: $ #,##0.00
+        isHidden
+
+    column Cost
+        dataType: decimal
+        sourceColumn: Cost
+        summarizeBy: sum
+        formatString: $ #,##0.00
+        isHidden
+
+    column mkt_bdgt
+        dataType: decimal
+        sourceColumn: mkt_bdgt
+        summarizeBy: average
+        formatString: $ #,##0.00
+        isHidden
+
+    column Margin
+        dataType: decimal
+        sourceColumn: Margin
+        summarizeBy: sum
+        formatString: $ #,##0.00
+        isHidden
+
+    column sss
+        dataType: decimal
+        sourceColumn: sss
+        summarizeBy: average
+        formatString: #,##0.##
+        isHidden
+
+    column adjusted_sales
+        dataType: decimal
+        sourceColumn: adjusted_sales
+        summarizeBy: sum
+        formatString: $ #,##0.00
+        isHidden
+
+    column adjusted_sales_cost
+        dataType: decimal
+        sourceColumn: adjusted_sales_cost
+        summarizeBy: sum
+        formatString: $ #,##0.00
+        isHidden
+
+    measure 'Total Sales' = SUM('RAND_RETAILDEMO'[Sales])
+        formatString: $ #,##0
+
+    measure 'Total Cost' = SUM('RAND_RETAILDEMO'[Cost])
+        formatString: $ #,##0
+
+    measure 'Avg Marketing Budget' = AVERAGE('RAND_RETAILDEMO'[mkt_bdgt])
+        formatString: $ #,##0
+
+    measure 'Regular Sales Avg' = AVERAGE('RAND_RETAILDEMO'[Sales])
+        formatString: $ #,##0
+
+    measure 'Adjusted Sales' = SUM('RAND_RETAILDEMO'[adjusted_sales])
+        formatString: $ #,##0
+
+    measure 'Adjusted Sales Cost' = SUM('RAND_RETAILDEMO'[adjusted_sales_cost])
+        formatString: $ #,##0
+
+    measure Margin = SUM('RAND_RETAILDEMO'[Margin])
+        formatString: $ #,##0
+
+    measure 'Avg Store Square Footage' = AVERAGE('RAND_RETAILDEMO'[sss])
+        formatString: #,##0.##
+
+    measure 'Marketing Pct of Sales' = DIVIDE([Avg Marketing Budget], [Total Sales])
+        formatString: 0.00%
+
+    measure 'Sales per SQFT' = DIVIDE([Total Sales], [Avg Store Square Footage])
+        formatString: $ #,##0
+
+    measure ROI = DIVIDE([Total Sales] - [Total Cost], [Total Cost])
+        formatString: 0.00%
+
+    measure 'Adjust ROI' = DIVIDE([Adjusted Sales] - [Adjusted Sales Cost], [Adjusted Sales Cost])
+        formatString: 0.00%
+
+    hierarchy 'Merchandise Hierarchy'
+        level Department
+            column: Department
+        level Class
+            column: Class
+        level 'Brand Name'
+            column: 'Brand Name'
+
+    hierarchy 'Geography Hierarchy'
+        level Country
+            column: Country
+        level Region
+            column: Region
+        level State
+            column: State
+        level City
+            column: City
+
+    partition 'RAND_RETAILDEMO-Partition' = m
+        mode: import
+        source =
+            let
+                Source = SasViya.Dataset("cas-shared-default", "Samples", "RAND_RETAILDEMO")
+            in
+                Source

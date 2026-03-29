@@ -1,0 +1,113 @@
+table PROMO_EFFECTIVENESS_X_EFFECTS_2
+
+    column 'Product Name'
+        dataType: string
+        sourceColumn: name
+        summarizeBy: none
+
+    column 'Promotion Name'
+        dataType: string
+        sourceColumn: promotion_name
+        summarizeBy: none
+
+    column 'Product Hierarchy SK'
+        dataType: string
+        sourceColumn: prod_hier_sk
+        summarizeBy: none
+
+    column revenue_____actual
+        dataType: decimal
+        sourceColumn: revenue_____actual
+        summarizeBy: sum
+        formatString: $ #,##0.00
+        isHidden
+
+    column revenue_____baseline
+        dataType: decimal
+        sourceColumn: revenue_____baseline
+        summarizeBy: sum
+        formatString: $ #,##0.00
+        isHidden
+
+    column revenue_____expected
+        dataType: decimal
+        sourceColumn: revenue_____expected
+        summarizeBy: sum
+        formatString: $ #,##0.00
+        isHidden
+
+    column forecast_accuracy
+        dataType: decimal
+        sourceColumn: forecast_accuracy
+        summarizeBy: average
+        formatString: 0.00%
+        isHidden
+
+    column revenue_____expected_change
+        dataType: decimal
+        sourceColumn: revenue_____expected_change
+        summarizeBy: sum
+        formatString: $ #,##0.00
+        isHidden
+
+    column halo___cannibal_impact
+        dataType: decimal
+        sourceColumn: halo___cannibal_impact
+        summarizeBy: sum
+        formatString: $ #,##0.00
+        isHidden
+
+    column own_price_impact
+        dataType: decimal
+        sourceColumn: own_price_impact
+        summarizeBy: sum
+        formatString: $ #,##0.00
+        isHidden
+
+    column total_price_impact
+        dataType: decimal
+        sourceColumn: total_price_impact
+        summarizeBy: sum
+        formatString: $ #,##0.00
+        isHidden
+
+    measure 'Revenue Actual' = SUM('PROMO_EFFECTIVENESS_X_EFFECTS_2'[revenue_____actual])
+        formatString: $ #,##0
+
+    measure 'Revenue Baseline' = SUM('PROMO_EFFECTIVENESS_X_EFFECTS_2'[revenue_____baseline])
+        formatString: $ #,##0
+
+    measure 'Revenue Expected' = SUM('PROMO_EFFECTIVENESS_X_EFFECTS_2'[revenue_____expected])
+        formatString: $ #,##0
+
+    measure 'Forecast Accuracy' = AVERAGE('PROMO_EFFECTIVENESS_X_EFFECTS_2'[forecast_accuracy])
+        formatString: 0.00%
+
+    measure 'Revenue Expected Change' = SUM('PROMO_EFFECTIVENESS_X_EFFECTS_2'[revenue_____expected_change])
+        formatString: $ #,##0
+
+    measure 'Halo/Cannibal Impact' = SUM('PROMO_EFFECTIVENESS_X_EFFECTS_2'[halo___cannibal_impact])
+        formatString: $ #,##0
+
+    measure 'Own Price Impact' = SUM('PROMO_EFFECTIVENESS_X_EFFECTS_2'[own_price_impact])
+        formatString: $ #,##0
+
+    measure 'Total Price Impact' = SUM('PROMO_EFFECTIVENESS_X_EFFECTS_2'[total_price_impact])
+        formatString: $ #,##0
+
+    measure 'Actual vs Forecast' = DIVIDE([Revenue Actual] - [Revenue Expected], [Revenue Expected])
+        formatString: 0.00%
+
+    measure 'Actual vs Baseline' = DIVIDE([Revenue Actual] - [Revenue Baseline], [Revenue Baseline])
+        formatString: 0.00%
+
+    measure 'Forecast vs Baseline' = DIVIDE([Revenue Expected] - [Revenue Baseline], [Revenue Baseline])
+        formatString: 0.00%
+
+    partition 'PROMO_EFFECTIVENESS_X_EFFECTS_2-Partition' = m
+        mode: import
+        source =
+            let
+                Source = SasViya.Dataset("cas-shared-default", "Samples", "PROMO_EFFECTIVENESS_X_EFFECTS_2")
+            in
+                Source

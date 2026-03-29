@@ -1,0 +1,13 @@
+{
+  "version": "1.0",
+  "artifacts": [
+    {
+      "report": {
+        "path": "Retail_Insights.Report"
+      }
+    }
+  ],
+  "settings": {
+    "enableTmdlView": true
+  }
+}

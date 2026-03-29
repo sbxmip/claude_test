@@ -1,0 +1,8 @@
+model Model
+    culture: en-US
+    discourageImplicitMeasures
+
+    ref table RAND_RETAILDEMO
+    ref table PROMO_EFFECTIVENESS_X_EFFECTS_2
+    ref table 'Sales Change'
+    ref table 'Cost Change'

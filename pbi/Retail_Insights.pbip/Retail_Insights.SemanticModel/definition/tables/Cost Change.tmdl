@@ -1,0 +1,16 @@
+table 'Cost Change'
+
+    column 'Cost Change'
+        dataType: double
+        sourceColumn: 'Cost Change'
+        summarizeBy: none
+
+    measure 'Cost Change Value' = SELECTEDVALUE('Cost Change'['Cost Change'], 0)
+        formatString: 0.00
+
+    partition 'Cost Change-Partition' = m
+        mode: import
+        source =
+            GENERATESERIES(-1, 1, 0.01)
+
+    annotation PBI_FormatHint = {"isGeneralNumber":true}

@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/platform/platformProperties.json",
+  "version": "2.0",
+  "config": {
+    "logicalId": "0c4d340c-c6a9-4b4c-a6b2-484dd97eba74"
+  },
+  "metadata": {
+    "type": "Report",
+    "displayName": "Retail_Insights"
+  }
+}
