@@ -64,11 +64,13 @@ The canonical_model.json you must produce has this exact top-level structure:
       {
         "name": "<snake_case>",
         "label": "...",
-        "type": "categorical | time",
+        "type": "categorical | time | geo",
         "source": "<source name>",
         "expr": "<CAS column name from xref>",
         // for time dimensions only:
-        "time_granularity": "day | week | month | quarter | year"
+        "time_granularity": "day | week | month | quarter | year",
+        // for geo dimensions only:
+        "geo_role": "latitude | longitude | country | state | city | region | postcode"
       }
     ],
 
@@ -293,6 +295,19 @@ Output rules:
 - Vega-Lite specs must use named data references only (no inline values).
 - For visuals with no Vega-Lite representation (table, crosstab, filter_control, text),
   omit the "spec" key entirely.
+
+COMPLETENESS RULE — this is mandatory:
+  Every column listed in data_sources (the "columns" array of each data source)
+  MUST appear in semantic_model as either a dimension OR a measure. No column may
+  be silently dropped. Specifically:
+  • String / categorical columns → dimensions (type: "categorical")
+  • Date / datetime columns      → dimensions (type: "time")
+  • Numeric columns used as geo coordinates (name ends in _Lat, _Long, _Latitude,
+    _Longitude, or similar) → dimensions (type: "geo", geo_role: "latitude" or "longitude")
+  • Other numeric columns (age, store_age, square_footage, etc.) → measures
+    (with an appropriate agg: sum | average | count | min | max)
+  If you are unsure whether a column is a dimension or measure, default to including
+  it as a measure with agg: "average". Never omit a column from the output.
 """
 
 
@@ -363,11 +378,172 @@ def build_user_message(report_id: str, artifacts: dict, xref: dict) -> str:
             )
 
     if "documentation" in artifacts:
-        # Include a trimmed version of the documentation (first 6000 chars)
-        doc = artifacts["documentation"][:6000]
-        parts.append(f"\n## Agent 1 Documentation (excerpt)\n{doc}")
+        # Include full documentation — it contains the column table with geo fields
+        parts.append(f"\n## Agent 1 Documentation\n{artifacts['documentation']}")
 
     return "\n".join(parts)
+
+
+# ── Report Dictionary generator ──────────────────────────────────────────────
+
+def _fmt_formula(metric: dict) -> str:
+    """Render a human-readable formula string for a metric."""
+    t = metric.get("type", "")
+    tp = metric.get("type_params", {})
+    if t == "simple":
+        return f'`{tp.get("measure", "?")}`'
+    if t == "ratio":
+        num = tp.get("numerator", {}).get("metric", "?")
+        den = tp.get("denominator", {}).get("metric", "?")
+        return f'`{num}` / `{den}`'
+    if t == "derived":
+        return f'`{tp.get("expr", "?")}`'
+    return "—"
+
+
+def _dim_type_label(dim: dict) -> str:
+    t = dim.get("type", "")
+    if t == "geo":
+        return f'geo ({dim.get("geo_role", "")})'
+    if t == "time":
+        gran = dim.get("time_granularity", "")
+        return f'time ({gran})' if gran else "time"
+    return t or "categorical"
+
+
+def generate_report_dictionary(canonical: dict, out_path) -> None:
+    """Write a human-readable report_dictionary.md from canonical_model.json."""
+    report = canonical.get("report", {})
+    sm     = canonical.get("semantic_model", {})
+    pages  = canonical.get("pages", [])
+    filters = canonical.get("filters", [])
+
+    lines = []
+    w = lines.append
+
+    # ── Header ────────────────────────────────────────────────────────────────
+    w(f"# Report Dictionary: {report.get('name', 'Unknown')}")
+    w("")
+    if report.get("description"):
+        w(f"> {report['description']}")
+        w("")
+    if report.get("purpose"):
+        w(f"**Purpose:** {report['purpose']}")
+        w("")
+    w(f"*Migrated from SAS Visual Analytics · {len(pages)} pages · "
+      f"{sum(len(p.get('visuals',[])) for p in pages)} visuals*")
+    w("")
+    w("---")
+    w("")
+
+    # ── Data Sources ──────────────────────────────────────────────────────────
+    w("## Data Sources")
+    w("")
+    for src in sm.get("sources", []):
+        conn = src.get("connection", {})
+        w(f"### {src.get('label', src['name'])}")
+        if src.get("description"):
+            w(f"{src['description']}")
+            w("")
+        w(f"**Connection:** `{conn.get('server','?')}.{conn.get('library','?')}.{conn.get('table','?')}`")
+        w("")
+
+        # Dimensions from this source
+        src_dims  = [d for d in sm.get("dimensions", []) if d.get("source") == src["name"]]
+        src_msrs  = [m for m in sm.get("measures",   []) if m.get("source") == src["name"]]
+
+        if src_dims or src_msrs:
+            w("| Column | Label | Kind | Type / Agg | Format |")
+            w("|--------|-------|------|------------|--------|")
+            for d in src_dims:
+                w(f"| `{d['expr']}` | {d.get('label', '')} | Dimension | {_dim_type_label(d)} | — |")
+            for m in src_msrs:
+                w(f"| `{m['expr']}` | {m.get('label', '')} | Measure | {m.get('agg', '')} | {m.get('format', '')} |")
+            w("")
+
+    w("---")
+    w("")
+
+    # ── Metrics & Calculations ────────────────────────────────────────────────
+    w("## Metrics & Calculations")
+    w("")
+    w("| Metric | Type | Formula / Basis | Format | Description |")
+    w("|--------|------|-----------------|--------|-------------|")
+    for m in sm.get("metrics", []):
+        desc = m.get("description", "").replace("|", "\\|").replace("\n", " ")
+        w(f"| **{m.get('label', m['name'])}** | {m.get('type','')} | {_fmt_formula(m)} | {m.get('format','')} | {desc} |")
+    w("")
+    w("---")
+    w("")
+
+    # ── Parameters ────────────────────────────────────────────────────────────
+    params = sm.get("parameters", [])
+    if params:
+        w("## Parameters (What-if Sliders)")
+        w("")
+        w("| Parameter | Label | Type | Default | Range | Affects |")
+        w("|-----------|-------|------|---------|-------|---------|")
+        for p in params:
+            rng = p.get("range", {})
+            rng_str = f'{rng.get("min","?")} → {rng.get("max","?")}' if rng else "—"
+            affects = ", ".join(f"`{x}`" for x in p.get("affects_metrics", []))
+            w(f"| `{p['name']}` | {p.get('label','')} | {p.get('data_type','')} "
+              f"| {p.get('default','—')} | {rng_str} | {affects} |")
+        w("")
+        w("---")
+        w("")
+
+    # ── Filters ───────────────────────────────────────────────────────────────
+    if filters:
+        w("## Filters")
+        w("")
+        w("| Filter | Scope | Type | Definition |")
+        w("|--------|-------|------|------------|")
+        for f in filters:
+            if f.get("type") == "static":
+                vals = ", ".join(str(v) for v in f.get("values", [])[:6])
+                if len(f.get("values", [])) > 6:
+                    vals += f" … (+{len(f['values'])-6} more)"
+                defn = f'{f.get("operator","in")}({vals})'
+            elif f.get("type") == "rank":
+                rc = f.get("rank_config", {})
+                defn = f'Top {rc.get("n","?")} {rc.get("group_by","?")} by {rc.get("rank_by","?")}'
+            else:
+                defn = f.get("type", "")
+            w(f"| `{f['id']}` | {f.get('scope','')} | {f.get('type','')} | {defn} |")
+        w("")
+        w("---")
+        w("")
+
+    # ── Pages & Visuals ───────────────────────────────────────────────────────
+    w("## Report Pages")
+    w("")
+    for i, page in enumerate(pages, 1):
+        w(f"### Page {i}: {page.get('display_name', page.get('id','?'))}")
+        if page.get("description"):
+            w(f"> {page['description']}")
+        w("")
+
+        visuals = page.get("visuals", [])
+        if visuals:
+            w("| Visual | Type | Metrics | Dimensions | Filters |")
+            w("|--------|------|---------|------------|---------|")
+            for vis in visuals:
+                mnames = ", ".join(f"`{x}`" for x in vis.get("metrics", []))
+                dnames = ", ".join(f"`{x}`" for x in vis.get("dimensions", []))
+                fnames = ", ".join(f"`{x}`" for x in vis.get("applied_filters", []))
+                vtype  = vis.get("visual_type", "")
+                label  = vis.get("display_name", vis.get("id", "?"))
+                w(f"| {label} | {vtype} | {mnames or '—'} | {dnames or '—'} | {fnames or '—'} |")
+            w("")
+        else:
+            w("*(no visuals)*")
+            w("")
+
+    # ── Write file ────────────────────────────────────────────────────────────
+    out_path = Path(out_path)
+    out_path.write_text("\n".join(lines), encoding="utf-8")
+    print(f"  ✓ report_dictionary.md saved ({out_path.stat().st_size // 1024}KB)")
 
 
 # ── Main ──────────────────────────────────────────────────────────────────────
@@ -457,7 +633,7 @@ def main() -> None:
         print(f"  Raw response saved to: {debug_path}")
         sys.exit(1)
 
-    # Save
+    # Save canonical model
     out_path = input_dir / OUTPUT_FILE
     out_path.write_text(json.dumps(parsed, indent=2, ensure_ascii=False), encoding="utf-8")
 
@@ -466,6 +642,7 @@ def main() -> None:
     print(f"\n  ✓ canonical_model.json saved ({out_path.stat().st_size // 1024}KB)")
     print(f"    sources    : {len(sm.get('sources', []))}")
     print(f"    dimensions : {len(sm.get('dimensions', []))}")
+    print(f"      geo dims : {len([d for d in sm.get('dimensions',[]) if d.get('type')=='geo'])}")
     print(f"    measures   : {len(sm.get('measures', []))}")
     print(f"    metrics    : {len(sm.get('metrics', []))}")
     print(f"    parameters : {len(sm.get('parameters', []))}")
@@ -473,6 +650,27 @@ def main() -> None:
     print(f"    pages      : {len(parsed.get('pages', []))}")
     total_visuals = sum(len(p.get('visuals', [])) for p in parsed.get('pages', []))
     print(f"    visuals    : {total_visuals}")
+
+    # Completeness check
+    raw_cols = set()
+    for src in artifacts.get("data_sources", {}).get("data_sources", []):
+        for col in src.get("columns", []):
+            if col.get("xref"):
+                raw_cols.add(col["xref"])
+    canonical_exprs = set(
+        d["expr"] for d in sm.get("dimensions", [])
+    ) | set(
+        m["expr"] for m in sm.get("measures", [])
+    )
+    missing = raw_cols - canonical_exprs
+    if missing:
+        print(f"\n  ⚠ Columns in data_sources NOT in canonical model ({len(missing)}): {sorted(missing)}")
+    else:
+        print(f"\n  ✓ All {len(raw_cols)} source columns accounted for in canonical model")
+
+    # Generate report dictionary
+    print("\n[5/5] Generating report_dictionary.md...")
+    generate_report_dictionary(parsed, input_dir / "report_dictionary.md")
 
 
 if __name__ == "__main__":

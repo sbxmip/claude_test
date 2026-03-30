@@ -155,15 +155,27 @@ def _execute(name: str, inputs: dict, state: _State) -> str:
 
     # ── setup_lakehouse ───────────────────────────────────────────────────────
     if name == "setup_lakehouse":
+        import time as _time
         lh = json.loads(_m.get_or_create_lakehouse(
             workspace_id=state.workspace_id,
             display_name=inputs["display_name"],
         ))
         lh_id = lh["id"]
-        details = json.loads(_m.get_lakehouse(state.workspace_id, lh_id))
-        props   = details.get("properties", {})
-        sql_ep  = props.get("sqlEndpointProperties", {})
-        conn    = sql_ep.get("connectionString", "")
+
+        # SQL endpoint may take up to ~30 s to provision after lakehouse creation
+        conn = ""
+        for _attempt in range(10):
+            details = json.loads(_m.get_lakehouse(state.workspace_id, lh_id))
+            props   = details.get("properties", {})
+            sql_ep  = props.get("sqlEndpointProperties") or {}
+            conn    = sql_ep.get("connectionString", "")
+            if conn:
+                break
+            print(f"      [setup_lakehouse] SQL endpoint not ready yet, retrying in 10 s…")
+            _time.sleep(10)
+
+        if not conn:
+            return json.dumps({"error": "SQL endpoint did not provision within 100 s — retry"})
 
         state.lakehouse_id   = lh_id
         state.lakehouse_name = inputs["display_name"]
@@ -371,10 +383,17 @@ Source table file (definition/tables/<SourceLabel>.tmdl):
     table <SourceLabel>
         lineageTag: <uuid>
 
-        column <DimExpr>
-            dataType: string | int64 | double | dateTime | boolean
+        column <DimCol>                    ← string/date dimension: visible
+            dataType: string | dateTime
             lineageTag: <uuid>
-            sourceColumn: <DimExpr>
+            sourceColumn: <DimCol>
+            summarizeBy: none
+
+        column <NumericCol>               ← numeric measure base: HIDDEN
+            dataType: double | int64
+            lineageTag: <uuid>
+            sourceColumn: <NumericCol>
+            isHidden
             summarizeBy: none
 
         measure '<MetricLabel>' = <DAX>
@@ -410,6 +429,12 @@ Parameter table file (definition/tables/'<ParamLabel>'.tmdl):
             mode: import
             source =
                 GENERATESERIES(<min>, <max>, 0.01)
+
+COLUMN VISIBILITY RULE (critical):
+  Dimension columns (string, date, dateTime) → visible (no isHidden)
+  Numeric source columns (double, int64) that back a DAX measure → isHidden
+  This keeps the field list clean: users see only DAX measures, not raw numbers.
+  Every column whose sourceColumn matches a measures[].expr MUST have isHidden.
 
 DAX translation per metric type:
   simple   → SUM/AVERAGE/COUNT/MIN/MAX('Table'[measure.expr])
