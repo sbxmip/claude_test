@@ -607,31 +607,99 @@ def main() -> None:
 
         break
 
-    # Extract JSON from response
-    print("[4/4] Extracting and saving canonical_model.json...")
-    canonical_json = None
+    # Extract JSON, validate completeness, fix-up loop
+    print("[4/4] Extracting and validating canonical_model.json...")
 
-    if "```json" in all_text:
-        start = all_text.index("```json") + 7
-        end = all_text.rindex("```")
-        canonical_json = all_text[start:end].strip()
-    elif "```" in all_text:
-        start = all_text.index("```") + 3
-        nl = all_text.index("\n", start)
-        end = all_text.rindex("```")
-        canonical_json = all_text[nl:end].strip()
-    else:
-        canonical_json = all_text.strip()
+    def _extract_json(text: str) -> str | None:
+        if "```json" in text:
+            start = text.index("```json") + 7
+            end   = text.rindex("```")
+            return text[start:end].strip()
+        if "```" in text:
+            start = text.index("```") + 3
+            nl    = text.index("\n", start)
+            end   = text.rindex("```")
+            return text[nl:end].strip()
+        return text.strip() or None
 
-    # Validate JSON
-    try:
-        parsed = json.loads(canonical_json)
-    except json.JSONDecodeError as e:
-        print(f"\n[ERROR] Response is not valid JSON: {e}")
-        debug_path = input_dir / "canonical_model_raw.txt"
-        debug_path.write_text(all_text, encoding="utf-8")
-        print(f"  Raw response saved to: {debug_path}")
-        sys.exit(1)
+    def _completeness_diff(parsed: dict, data_sources_raw: dict) -> tuple[set, set]:
+        """Return (missing_from_canonical, extra_in_canonical) vs data_sources.json."""
+        sas_cols: set = set()
+        for src in data_sources_raw.get("data_sources", []):
+            for col in src.get("columns", []):
+                if col.get("xref"):
+                    sas_cols.add(col["xref"])
+        sm = parsed.get("semantic_model", {})
+        canonical_exprs = (
+            {d["expr"] for d in sm.get("dimensions", [])} |
+            {m["expr"] for m in sm.get("measures",   [])}
+        )
+        return sas_cols - canonical_exprs, canonical_exprs - sas_cols
+
+    # Validate JSON and fix-up loop (up to 3 completeness fix rounds)
+    parsed = None
+    for fix_round in range(4):
+        raw_json = _extract_json(all_text)
+        if not raw_json:
+            print(f"\n[ERROR] No JSON found in response (round {fix_round})")
+            debug_path = input_dir / "canonical_model_raw.txt"
+            debug_path.write_text(all_text, encoding="utf-8")
+            sys.exit(1)
+        try:
+            parsed = json.loads(raw_json)
+        except json.JSONDecodeError as e:
+            print(f"\n[ERROR] Response is not valid JSON: {e}")
+            debug_path = input_dir / "canonical_model_raw.txt"
+            debug_path.write_text(all_text, encoding="utf-8")
+            print(f"  Raw response saved to: {debug_path}")
+            sys.exit(1)
+
+        missing, extra = _completeness_diff(parsed, artifacts.get("data_sources", {}))
+
+        if not missing and fix_round == 0:
+            print(f"      ✓ Completeness OK on first pass — all SAS columns present")
+            break
+        if not missing:
+            print(f"      ✓ Completeness OK after {fix_round} fix round(s)")
+            break
+        if fix_round == 3:
+            print(f"\n  ⚠ Still {len(missing)} missing after 3 fix rounds — saving anyway")
+            print(f"    missing: {sorted(missing)}")
+            break
+
+        # Feed diff back to Claude
+        print(f"\n      [completeness fix {fix_round + 1}] "
+              f"{len(missing)} columns missing from canonical model — sending diff to Claude...")
+        fix_msg = (
+            f"Your canonical_model.json is missing {len(missing)} SAS source column(s).\n"
+            f"The data_sources.json is the ground truth — EVERY column xref MUST appear "
+            f"as a dimension expr or measure expr.\n\n"
+            f"Missing columns (add these):\n"
+            + "\n".join(f"  - {c}" for c in sorted(missing))
+            + (f"\n\nExtra columns not in SAS source (remove these): {sorted(extra)}"
+               if extra else "")
+            + "\n\nReturn the COMPLETE corrected canonical_model.json in a ```json fence. "
+            "Do not truncate — output the full file."
+        )
+        messages.append({"role": "assistant", "content": [{"type": "text", "text": raw_json}]})
+        messages.append({"role": "user", "content": fix_msg})
+        all_text = ""
+
+        for _iter in range(10):
+            resp2 = client.messages.create(
+                model=MODEL, max_tokens=MAX_TOKENS,
+                system=SYSTEM_PROMPT, messages=messages,
+            )
+            print(f"        fix iter {_iter+1}: stop={resp2.stop_reason} "
+                  f"out={resp2.usage.output_tokens}")
+            for blk in resp2.content:
+                if hasattr(blk, "text"):
+                    all_text += blk.text
+            if resp2.stop_reason == "end_turn":
+                break
+            if resp2.stop_reason == "max_tokens":
+                messages.append({"role": "assistant", "content": resp2.content})
+                messages.append({"role": "user", "content": "Continue exactly where you left off."})
 
     # Save canonical model
     out_path = input_dir / OUTPUT_FILE
@@ -651,22 +719,16 @@ def main() -> None:
     total_visuals = sum(len(p.get('visuals', [])) for p in parsed.get('pages', []))
     print(f"    visuals    : {total_visuals}")
 
-    # Completeness check
-    raw_cols = set()
-    for src in artifacts.get("data_sources", {}).get("data_sources", []):
-        for col in src.get("columns", []):
-            if col.get("xref"):
-                raw_cols.add(col["xref"])
-    canonical_exprs = set(
-        d["expr"] for d in sm.get("dimensions", [])
-    ) | set(
-        m["expr"] for m in sm.get("measures", [])
-    )
-    missing = raw_cols - canonical_exprs
-    if missing:
-        print(f"\n  ⚠ Columns in data_sources NOT in canonical model ({len(missing)}): {sorted(missing)}")
+    # Final completeness report
+    missing_final, extra_final = _completeness_diff(parsed, artifacts.get("data_sources", {}))
+    if missing_final:
+        print(f"\n  ⚠ Columns in data_sources NOT in canonical model ({len(missing_final)}): {sorted(missing_final)}")
     else:
-        print(f"\n  ✓ All {len(raw_cols)} source columns accounted for in canonical model")
+        sas_total = sum(
+            len([c for c in src.get("columns", []) if c.get("xref")])
+            for src in artifacts.get("data_sources", {}).get("data_sources", [])
+        )
+        print(f"\n  ✓ All {sas_total} unique SAS source columns accounted for in canonical model")
 
     # Generate report dictionary
     print("\n[5/5] Generating report_dictionary.md...")

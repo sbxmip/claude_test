@@ -317,7 +317,19 @@ def parse_data_sources(report_id: str) -> dict:
         if esri is not None:
             source["connection"] = {"type": "EsriMapProvider", **esri.attrib}
 
-        # Columns and calculations inside BusinessItemFolder
+        # First pass: build bi-name → {xref, label} lookup for all DataItems
+        bi_lookup: dict[str, dict] = {}
+        for folder in ds.iter(_tag("BusinessItemFolder")):
+            for child in folder:
+                tag = child.tag.split("}")[-1] if "}" in child.tag else child.tag
+                if tag == "DataItem":
+                    bi_name = _attrib(child, "name")
+                    bi_lookup[bi_name] = {
+                        "xref": _attrib(child, "xref"),
+                        "label": _attrib(child, "label"),
+                    }
+
+        # Second pass: collect columns, calculations, and hierarchies
         for folder in ds.iter(_tag("BusinessItemFolder")):
             for child in folder:
                 tag = child.tag.split("}")[-1] if "}" in child.tag else child.tag
@@ -333,6 +345,19 @@ def parse_data_sources(report_id: str) -> dict:
                     item["expression"] = expr.text if expr is not None else ""
                     source["calculations"].append(item)
                 elif tag == "Hierarchy":
+                    # Extract ordered levels, resolving each Level ref to its column xref
+                    levels = []
+                    for level_el in child:
+                        level_tag = level_el.tag.split("}")[-1] if "}" in level_el.tag else level_el.tag
+                        if level_tag == "Level":
+                            ref = _attrib(level_el, "ref")
+                            resolved = bi_lookup.get(ref, {})
+                            levels.append({
+                                "bi_name": ref,
+                                "xref": resolved.get("xref", ""),
+                                "label": resolved.get("label", ref),
+                            })
+                    item["levels"] = levels
                     source["hierarchies"].append(item)
                 elif tag == "DataItem":
                     source["columns"].append(item)

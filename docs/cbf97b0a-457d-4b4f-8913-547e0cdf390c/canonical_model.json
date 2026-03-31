@@ -4,8 +4,8 @@
   "source_report_id": "cbf97b0a-457d-4b4f-8913-547e0cdf390c",
   "report": {
     "name": "Retail Insights",
-    "description": "Retail operations dashboard covering store banner performance, geographic sales analysis, and promotional effectiveness.",
-    "purpose": "Enable retail executives and marketing managers to compare store banner performance, evaluate geographic ROI with what-if scenarios, and assess promotional effectiveness against forecast and baseline revenue.",
+    "description": "Retail analytics report covering store banner performance, geographic effectiveness, and promotion effectiveness for a multi-banner retail chain.",
+    "purpose": "Enable store operations managers, marketing analysts, and category managers to evaluate banner efficiency, regional profitability with what-if scenarios, and promotional lift across product lines.",
     "created_by": "sas.SASVisualAnalytics",
     "original_tool": "SAS Visual Analytics"
   },
@@ -14,7 +14,7 @@
       {
         "name": "rand_retaildemo",
         "label": "RAND_RETAILDEMO",
-        "description": "Retail demo transaction data with store, product, customer, and geographic information.",
+        "description": "Retail transaction data covering sales, costs, marketing budgets, store attributes, and customer demographics across multiple banners and regions.",
         "connection": {
           "server": "cas-shared-default",
           "library": "Samples",
@@ -24,7 +24,7 @@
       {
         "name": "promo_effectiveness",
         "label": "PROMO_EFFECTIVENESS_X_EFFECTS_2",
-        "description": "Promotion effectiveness data with actual, baseline, and expected revenue along with price impact metrics.",
+        "description": "Promotion effectiveness data with actual, baseline, and expected revenue along with price impact metrics by product and promotion.",
         "connection": {
           "server": "cas-shared-default",
           "library": "Samples",
@@ -35,7 +35,7 @@
     "entities": [
       {
         "name": "cust_id",
-        "type": "primary",
+        "type": "unique",
         "source": "rand_retaildemo",
         "expr": "CustID"
       },
@@ -177,6 +177,13 @@
         "expr": "Region"
       },
       {
+        "name": "custom_region",
+        "label": "Custom Region",
+        "type": "categorical",
+        "source": "rand_retaildemo",
+        "expr": "Region"
+      },
+      {
         "name": "region_2",
         "label": "Region 2",
         "type": "categorical",
@@ -223,6 +230,13 @@
         "expr": "State"
       },
       {
+        "name": "state_region",
+        "label": "State - Region",
+        "type": "categorical",
+        "source": "rand_retaildemo",
+        "expr": "State"
+      },
+      {
         "name": "state_lat",
         "label": "State Latitude",
         "type": "geo",
@@ -261,7 +275,7 @@
       },
       {
         "name": "transaction_date",
-        "label": "Transaction Date",
+        "label": "Date",
         "type": "time",
         "source": "rand_retaildemo",
         "expr": "Date",
@@ -298,14 +312,6 @@
         "expr": "trx_tod"
       },
       {
-        "name": "year",
-        "label": "Year",
-        "type": "time",
-        "source": "rand_retaildemo",
-        "expr": "Year",
-        "time_granularity": "year"
-      },
-      {
         "name": "trx_hr_char",
         "label": "Transaction Hour",
         "type": "categorical",
@@ -313,18 +319,12 @@
         "expr": "trx_hr_char"
       },
       {
-        "name": "custom_region",
-        "label": "Custom Region",
-        "type": "categorical",
+        "name": "year",
+        "label": "Year",
+        "type": "time",
         "source": "rand_retaildemo",
-        "expr": "Region"
-      },
-      {
-        "name": "state_region",
-        "label": "State - Region",
-        "type": "categorical",
-        "source": "rand_retaildemo",
-        "expr": "State"
+        "expr": "Year",
+        "time_granularity": "year"
       },
       {
         "name": "prod_hier_sk",
@@ -376,19 +376,25 @@
         "source": "rand_retaildemo",
         "levels": [
           "department",
-          "class",
-          "brand_name"
+          "class"
         ]
       },
       {
-        "name": "geography_hierarchy",
-        "label": "Geography Hierarchy",
+        "name": "custom_region_hierarchy",
+        "label": "Custom Region Hierarchy",
         "source": "rand_retaildemo",
         "levels": [
-          "country",
-          "region",
-          "state",
-          "city"
+          "custom_region",
+          "state_region"
+        ]
+      },
+      {
+        "name": "region_2_hierarchy",
+        "label": "Region 2 Hierarchy",
+        "source": "rand_retaildemo",
+        "levels": [
+          "region_2",
+          "state_region"
         ]
       }
     ],
@@ -405,7 +411,7 @@
       {
         "name": "margin",
         "label": "Margin",
-        "description": "Profit margin amount",
+        "description": "Margin amount per transaction",
         "agg": "sum",
         "source": "rand_retaildemo",
         "expr": "Margin",
@@ -415,15 +421,6 @@
         "name": "marketing_budget",
         "label": "Marketing Budget",
         "description": "Marketing budget amount",
-        "agg": "sum",
-        "source": "rand_retaildemo",
-        "expr": "mkt_bdgt",
-        "format": "currency"
-      },
-      {
-        "name": "marketing_budget_avg",
-        "label": "Marketing Budget (Average)",
-        "description": "Average marketing budget per record",
         "agg": "average",
         "source": "rand_retaildemo",
         "expr": "mkt_bdgt",
@@ -432,16 +429,16 @@
       {
         "name": "sales",
         "label": "Sales",
-        "description": "Transaction sales amount",
+        "description": "Sales revenue amount",
         "agg": "sum",
         "source": "rand_retaildemo",
         "expr": "Sales",
         "format": "currency"
       },
       {
-        "name": "sales_avg",
+        "name": "sales_average",
         "label": "Regular Sales Avg",
-        "description": "Average sales per transaction",
+        "description": "Sales averaged across transactions",
         "agg": "average",
         "source": "rand_retaildemo",
         "expr": "Sales",
@@ -450,7 +447,7 @@
       {
         "name": "cost",
         "label": "Cost",
-        "description": "Transaction cost amount",
+        "description": "Cost amount per transaction",
         "agg": "sum",
         "source": "rand_retaildemo",
         "expr": "Cost",
@@ -468,7 +465,7 @@
       {
         "name": "store_square_footage",
         "label": "Store Square Footage",
-        "description": "Store square footage (sss)",
+        "description": "Square footage of the store",
         "agg": "average",
         "source": "rand_retaildemo",
         "expr": "sss",
@@ -477,19 +474,19 @@
       {
         "name": "adjusted_sales",
         "label": "Adjusted Sales",
-        "description": "Row-level adjusted sales: for regions US_MW, US_CS, US_AT, LATA, EU, ASIA multiply Sales by (0.85 + sales_change_parameter); for all other regions multiply Sales by (1 + sales_change_parameter). Aggregated as sum.",
+        "description": "Row-level adjusted sales: for regions US_MW, US_CS, US_AT, LATA, EU, ASIA applies Sales * (0.85 + sales_change_parameter); otherwise Sales * (1 + sales_change_parameter)",
         "agg": "sum",
         "source": "rand_retaildemo",
-        "expr": "adjusted_sales_calculated",
+        "expr": "adjusted_sales_calc",
         "format": "currency"
       },
       {
         "name": "adjusted_sales_cost",
         "label": "Adjusted Sales Cost",
-        "description": "Row-level adjusted cost: Cost multiplied by (1 + cost_change_parameter). Aggregated as sum.",
+        "description": "Row-level adjusted cost: Cost * (1 + cost_change_parameter)",
         "agg": "sum",
         "source": "rand_retaildemo",
-        "expr": "adjusted_sales_cost_calculated",
+        "expr": "adjusted_sales_cost_calc",
         "format": "currency"
       },
       {
@@ -504,7 +501,7 @@
       {
         "name": "revenue_baseline",
         "label": "Revenue Baseline",
-        "description": "Baseline revenue without promotion",
+        "description": "Baseline revenue (no-promotion scenario)",
         "agg": "sum",
         "source": "promo_effectiveness",
         "expr": "revenue_____baseline",
@@ -531,7 +528,7 @@
       {
         "name": "revenue_expected_change",
         "label": "Revenue Expected Change",
-        "description": "Expected change in revenue due to promotion",
+        "description": "Expected revenue change amount",
         "agg": "sum",
         "source": "promo_effectiveness",
         "expr": "revenue_____expected_change",
@@ -549,7 +546,7 @@
       {
         "name": "own_price_impact",
         "label": "Own Price Impact",
-        "description": "Impact of own-price changes on revenue",
+        "description": "Own-price elasticity impact on revenue",
         "agg": "sum",
         "source": "promo_effectiveness",
         "expr": "own_price_impact",
@@ -569,7 +566,7 @@
       {
         "name": "total_sales",
         "label": "Total Sales",
-        "description": "Sum of all sales transactions",
+        "description": "Sum of all sales revenue",
         "type": "simple",
         "type_params": {
           "measure": "sales"
@@ -579,7 +576,7 @@
       {
         "name": "total_cost",
         "label": "Total Cost",
-        "description": "Sum of all transaction costs",
+        "description": "Sum of all costs",
         "type": "simple",
         "type_params": {
           "measure": "cost"
@@ -587,9 +584,9 @@
         "format": "currency"
       },
       {
-        "name": "total_marketing_budget",
-        "label": "Total Marketing Budget",
-        "description": "Sum of marketing budget",
+        "name": "avg_marketing_budget",
+        "label": "Average Marketing Budget",
+        "description": "Average marketing budget across transactions",
         "type": "simple",
         "type_params": {
           "measure": "marketing_budget"
@@ -597,39 +594,9 @@
         "format": "currency"
       },
       {
-        "name": "avg_marketing_budget",
-        "label": "Average Marketing Budget",
-        "description": "Average marketing budget per record within grouping",
-        "type": "simple",
-        "type_params": {
-          "measure": "marketing_budget_avg"
-        },
-        "format": "currency"
-      },
-      {
-        "name": "avg_sales",
-        "label": "Regular Sales Avg",
-        "description": "Average sales per transaction",
-        "type": "simple",
-        "type_params": {
-          "measure": "sales_avg"
-        },
-        "format": "currency"
-      },
-      {
-        "name": "total_margin",
-        "label": "Total Margin",
-        "description": "Sum of profit margin",
-        "type": "simple",
-        "type_params": {
-          "measure": "margin"
-        },
-        "format": "currency"
-      },
-      {
         "name": "total_adjusted_sales",
         "label": "Total Adjusted Sales",
-        "description": "Sum of adjusted sales (what-if scenario driven by sales_change parameter)",
+        "description": "Sum of parameter-adjusted sales amounts",
         "type": "simple",
         "type_params": {
           "measure": "adjusted_sales"
@@ -639,7 +606,7 @@
       {
         "name": "total_adjusted_sales_cost",
         "label": "Total Adjusted Sales Cost",
-        "description": "Sum of adjusted cost (what-if scenario driven by cost_change parameter)",
+        "description": "Sum of parameter-adjusted cost amounts",
         "type": "simple",
         "type_params": {
           "measure": "adjusted_sales_cost"
@@ -649,7 +616,7 @@
       {
         "name": "avg_store_square_footage",
         "label": "Average Store Square Footage",
-        "description": "Average store square footage within grouping",
+        "description": "Average store square footage",
         "type": "simple",
         "type_params": {
           "measure": "store_square_footage"
@@ -657,9 +624,39 @@
         "format": "number"
       },
       {
+        "name": "total_revenue_actual",
+        "label": "Total Revenue Actual",
+        "description": "Sum of actual promotion revenue",
+        "type": "simple",
+        "type_params": {
+          "measure": "revenue_actual"
+        },
+        "format": "currency"
+      },
+      {
+        "name": "total_revenue_baseline",
+        "label": "Total Revenue Baseline",
+        "description": "Sum of baseline (no-promotion) revenue",
+        "type": "simple",
+        "type_params": {
+          "measure": "revenue_baseline"
+        },
+        "format": "currency"
+      },
+      {
+        "name": "total_revenue_expected",
+        "label": "Total Revenue Expected",
+        "description": "Sum of forecasted/expected promotion revenue",
+        "type": "simple",
+        "type_params": {
+          "measure": "revenue_expected"
+        },
+        "format": "currency"
+      },
+      {
         "name": "marketing_pct_of_sales",
         "label": "Marketing Pct of Sales",
-        "description": "Average marketing budget divided by total sales. Shows what percentage of sales revenue is allocated to marketing.",
+        "description": "Average marketing budget divided by total sales, expressing marketing spend as a percentage of sales revenue",
         "type": "ratio",
         "type_params": {
           "numerator": {
@@ -674,7 +671,7 @@
       {
         "name": "sales_per_sqft",
         "label": "Sales per SQFT",
-        "description": "Total sales divided by average store square footage. Measures sales productivity per unit of floor space.",
+        "description": "Total sales divided by average store square footage, measuring sales efficiency per unit of store space",
         "type": "ratio",
         "type_params": {
           "numerator": {
@@ -701,85 +698,27 @@
         "format": "percentage"
       },
       {
-        "name": "adjusted_sales_metric",
-        "label": "Adjusted Sales",
-        "description": "What-if adjusted sales. For regions US_MW, US_CS, US_AT, LATA, EU, ASIA: Sales * (0.85 + sales_change). For other regions: Sales * (1 + sales_change). Row-level calculation aggregated as sum.",
-        "type": "derived",
-        "type_params": {
-          "expr": "IF region_2 IN ('US_MW','US_CS','US_AT','LATA','EU','ASIA') THEN sum(sales) * (0.85 + sales_change) ELSE sum(sales) * (1 + sales_change)",
-          "metrics": [
-            "total_sales"
-          ],
-          "parameters": [
-            "sales_change"
-          ]
-        },
-        "format": "currency"
-      },
-      {
-        "name": "adjusted_cost_metric",
-        "label": "Adjusted Sales Cost",
-        "description": "What-if adjusted cost: Cost * (1 + cost_change). Row-level calculation aggregated as sum.",
-        "type": "derived",
-        "type_params": {
-          "expr": "sum(cost) * (1 + cost_change)",
-          "metrics": [
-            "total_cost"
-          ],
-          "parameters": [
-            "cost_change"
-          ]
-        },
-        "format": "currency"
-      },
-      {
         "name": "adjust_roi",
-        "label": "Adjust ROI",
-        "description": "Adjusted ROI using what-if parameters: (Total Adjusted Sales - Total Adjusted Sales Cost) / Total Adjusted Sales Cost",
+        "label": "Adjusted ROI",
+        "description": "ROI using parameter-adjusted sales and costs: (Total Adjusted Sales - Total Adjusted Sales Cost) / Total Adjusted Sales Cost. Enables what-if scenario analysis.",
         "type": "derived",
         "type_params": {
           "expr": "(total_adjusted_sales - total_adjusted_sales_cost) / total_adjusted_sales_cost",
           "metrics": [
             "total_adjusted_sales",
             "total_adjusted_sales_cost"
+          ],
+          "parameters": [
+            "sales_change",
+            "cost_change"
           ]
         },
         "format": "percentage"
       },
       {
-        "name": "total_revenue_actual",
-        "label": "Total Revenue Actual",
-        "description": "Sum of actual promotional revenue",
-        "type": "simple",
-        "type_params": {
-          "measure": "revenue_actual"
-        },
-        "format": "currency"
-      },
-      {
-        "name": "total_revenue_baseline",
-        "label": "Total Revenue Baseline",
-        "description": "Sum of baseline revenue (no promotion)",
-        "type": "simple",
-        "type_params": {
-          "measure": "revenue_baseline"
-        },
-        "format": "currency"
-      },
-      {
-        "name": "total_revenue_expected",
-        "label": "Total Revenue Expected",
-        "description": "Sum of forecasted/expected promotional revenue",
-        "type": "simple",
-        "type_params": {
-          "measure": "revenue_expected"
-        },
-        "format": "currency"
-      },
-      {
         "name": "actual_vs_forecast",
         "label": "Actual vs Forecast",
-        "description": "Percentage difference between actual and forecasted revenue: (Actual - Expected) / Expected. Positive means actual exceeded forecast.",
+        "description": "Percentage difference between actual and expected (forecasted) promotion revenue: (Actual - Expected) / Expected. Positive means outperformance.",
         "type": "derived",
         "type_params": {
           "expr": "(total_revenue_actual - total_revenue_expected) / total_revenue_expected",
@@ -793,7 +732,7 @@
       {
         "name": "actual_vs_baseline",
         "label": "Actual vs Baseline",
-        "description": "Incremental lift of promotion: (Actual - Baseline) / Baseline. Measures incremental revenue over no-promotion baseline.",
+        "description": "Incremental lift from promotion above the no-promotion baseline: (Actual - Baseline) / Baseline",
         "type": "derived",
         "type_params": {
           "expr": "(total_revenue_actual - total_revenue_baseline) / total_revenue_baseline",
@@ -807,7 +746,7 @@
       {
         "name": "forecast_vs_baseline",
         "label": "Forecast vs Baseline",
-        "description": "Projected incremental impact: (Expected - Baseline) / Baseline. Measures forecasted revenue lift over baseline.",
+        "description": "Initially projected incremental impact of promotion: (Expected - Baseline) / Baseline",
         "type": "derived",
         "type_params": {
           "expr": "(total_revenue_expected - total_revenue_baseline) / total_revenue_baseline",
@@ -817,91 +756,20 @@
           ]
         },
         "format": "percentage"
-      },
-      {
-        "name": "total_revenue_expected_change",
-        "label": "Total Revenue Expected Change",
-        "description": "Sum of expected revenue change from promotions",
-        "type": "simple",
-        "type_params": {
-          "measure": "revenue_expected_change"
-        },
-        "format": "currency"
-      },
-      {
-        "name": "total_halo_cannibal_impact",
-        "label": "Total Halo / Cannibal Impact",
-        "description": "Sum of halo and cannibalization revenue impact",
-        "type": "simple",
-        "type_params": {
-          "measure": "halo_cannibal_impact"
-        },
-        "format": "currency"
-      },
-      {
-        "name": "total_own_price_impact",
-        "label": "Total Own Price Impact",
-        "description": "Sum of own-price impact on revenue",
-        "type": "simple",
-        "type_params": {
-          "measure": "own_price_impact"
-        },
-        "format": "currency"
-      },
-      {
-        "name": "total_total_price_impact",
-        "label": "Total Price Impact",
-        "description": "Sum of total price impact on revenue",
-        "type": "simple",
-        "type_params": {
-          "measure": "total_price_impact"
-        },
-        "format": "currency"
-      },
-      {
-        "name": "avg_forecast_accuracy",
-        "label": "Average Forecast Accuracy",
-        "description": "Average forecast accuracy across promotions",
-        "type": "simple",
-        "type_params": {
-          "measure": "forecast_accuracy"
-        },
-        "format": "percentage"
-      },
-      {
-        "name": "avg_age",
-        "label": "Average Customer Age",
-        "description": "Average customer age",
-        "type": "simple",
-        "type_params": {
-          "measure": "age"
-        },
-        "format": "number"
-      },
-      {
-        "name": "avg_store_age",
-        "label": "Average Store Age",
-        "description": "Average age of stores",
-        "type": "simple",
-        "type_params": {
-          "measure": "store_age"
-        },
-        "format": "number"
       }
     ],
     "parameters": [
       {
         "name": "sales_change",
         "label": "Sales Change",
-        "description": "What-if slider controlling the sales adjustment factor. Positive values increase adjusted sales; negative values decrease them. For six specific regions the base multiplier starts at 0.85; for others it starts at 1.0.",
+        "description": "What-if parameter to adjust sales by a percentage. Applied differently by region: regions US_MW, US_CS, US_AT, LATA, EU, ASIA get a 15% discount base (0.85 + parameter), all others get (1 + parameter).",
         "data_type": "decimal",
-        "default": 0,
+        "default": 0.2,
         "range": {
-          "min": -0.5,
-          "max": 0.5
+          "min": -1.0,
+          "max": 1.0
         },
         "affects_metrics": [
-          "adjusted_sales_metric",
           "total_adjusted_sales",
           "adjust_roi"
         ]
@@ -909,15 +777,14 @@
       {
         "name": "cost_change",
         "label": "Cost Change",
-        "description": "What-if slider controlling the cost adjustment factor. Applied as a multiplier: Cost * (1 + cost_change).",
+        "description": "What-if parameter to adjust cost by a percentage. Cost is multiplied by (1 + parameter).",
         "data_type": "decimal",
-        "default": 0,
+        "default": 0.0,
         "range": {
-          "min": -0.5,
-          "max": 0.5
+          "min": -1.0,
+          "max": 1.0
         },
         "affects_metrics": [
-          "adjusted_cost_metric",
           "total_adjusted_sales_cost",
           "adjust_roi"
         ]
@@ -939,7 +806,7 @@
     },
     {
       "id": "filter_storechain_fast_with_nulls",
-      "label": "Store Chain = FAST (incl. nulls)",
+      "label": "Store Chain = FAST (include nulls)",
       "type": "static",
       "scope": "visual",
       "dimension": "storechain",
@@ -963,7 +830,7 @@
     },
     {
       "id": "filter_storechain_grand_with_nulls",
-      "label": "Store Chain = GRAND (incl. nulls)",
+      "label": "Store Chain = GRAND (include nulls)",
       "type": "static",
       "scope": "visual",
       "dimension": "storechain",
@@ -975,7 +842,7 @@
     },
     {
       "id": "filter_storechain_moda_with_nulls",
-      "label": "Store Chain = MODA (incl. nulls)",
+      "label": "Store Chain = MODA (include nulls)",
       "type": "static",
       "scope": "visual",
       "dimension": "storechain",
@@ -986,8 +853,102 @@
       "include_nulls": true
     },
     {
-      "id": "filter_us_states",
-      "label": "US States Only",
+      "id": "rank_top5_sales_fast",
+      "label": "Top 5 Departments by Sales (FAST)",
+      "type": "rank",
+      "scope": "visual",
+      "dimension": "department",
+      "rank_config": {
+        "rank_by": "total_sales",
+        "group_by": "department",
+        "n": 5,
+        "subset": "top",
+        "include_ties": true
+      }
+    },
+    {
+      "id": "rank_top5_sales_grand",
+      "label": "Top 5 Departments by Sales (GRAND)",
+      "type": "rank",
+      "scope": "visual",
+      "dimension": "department",
+      "rank_config": {
+        "rank_by": "total_sales",
+        "group_by": "department",
+        "n": 5,
+        "subset": "top",
+        "include_ties": true
+      }
+    },
+    {
+      "id": "rank_top5_sales_moda",
+      "label": "Top 5 Departments by Sales (MODA)",
+      "type": "rank",
+      "scope": "visual",
+      "dimension": "department",
+      "rank_config": {
+        "rank_by": "total_sales",
+        "group_by": "department",
+        "n": 5,
+        "subset": "top",
+        "include_ties": true
+      }
+    },
+    {
+      "id": "filter_us_states_map",
+      "label": "US States Only (Map)",
+      "type": "static",
+      "scope": "visual",
+      "dimension": "state",
+      "operator": "in",
+      "values": [
+        "AL",
+        "AR",
+        "AZ",
+        "CA",
+        "CO",
+        "CT",
+        "DC",
+        "DE",
+        "FL",
+        "GA",
+        "IA",
+        "IL",
+        "KS",
+        "KY",
+        "LA",
+        "MA",
+        "MD",
+        "MI",
+        "MN",
+        "MO",
+        "MT",
+        "NC",
+        "NH",
+        "NJ",
+        "NM",
+        "NV",
+        "NY",
+        "OH",
+        "OK",
+        "OR",
+        "PA",
+        "RI",
+        "SC",
+        "SD",
+        "TN",
+        "TX",
+        "UT",
+        "VA",
+        "VT",
+        "WA",
+        "WV"
+      ],
+      "include_nulls": true
+    },
+    {
+      "id": "filter_us_states_bar",
+      "label": "US States Only (Bar Chart)",
       "type": "static",
       "scope": "visual",
       "dimension": "state",
@@ -1039,7 +1000,7 @@
     },
     {
       "id": "filter_iamz_products",
-      "label": "Iamz Dog Food Products",
+      "label": "12 Iamz Products",
       "type": "static",
       "scope": "visual",
       "dimension": "product_name",
@@ -1062,99 +1023,25 @@
     },
     {
       "id": "filter_promo_not_missing",
-      "label": "Promotion Details Not Missing",
+      "label": "Non-Missing Products (Crosstab)",
       "type": "static",
       "scope": "visual",
       "dimension": "product_name",
       "operator": "is_not_null",
       "values": [],
       "include_nulls": false
-    },
-    {
-      "id": "rank_top5_fast_dept",
-      "label": "Top 5 Departments by Sales (FAST)",
-      "type": "rank",
-      "scope": "visual",
-      "dimension": "department",
-      "rank_config": {
-        "rank_by": "total_sales",
-        "group_by": "department",
-        "n": 5,
-        "subset": "top",
-        "include_ties": true
-      }
-    },
-    {
-      "id": "rank_top5_grand_dept",
-      "label": "Top 5 Departments by Sales (GRAND)",
-      "type": "rank",
-      "scope": "visual",
-      "dimension": "department",
-      "rank_config": {
-        "rank_by": "total_sales",
-        "group_by": "department",
-        "n": 5,
-        "subset": "top",
-        "include_ties": true
-      }
-    },
-    {
-      "id": "rank_top5_moda_dept",
-      "label": "Top 5 Departments by Sales (MODA)",
-      "type": "rank",
-      "scope": "visual",
-      "dimension": "department",
-      "rank_config": {
-        "rank_by": "total_sales",
-        "group_by": "department",
-        "n": 5,
-        "subset": "top",
-        "include_ties": true
-      }
     }
   ],
   "pages": [
     {
       "id": "store_banner_dashboard",
       "display_name": "Store Banner Dashboard",
-      "description": "Compares three store banners (FAST, GRAND, MODA) on Marketing % of Sales, Sales by department, and Marketing Budget. Helps identify which banners are converting marketing spend into sales most efficiently.",
+      "description": "Compares the performance of three store banners (FAST, GRAND, MODA) on marketing efficiency and sales by department. Answers: How effectively is each banner converting marketing spend into sales?",
       "visuals": [
         {
-          "id": "kpi_mkt_pct_fast",
-          "display_name": "Marketing Pct of Sales - FAST",
-          "description": "KPI card showing what percentage of FAST banner sales revenue is allocated to marketing.",
-          "visual_type": "kpi_card",
-          "metrics": [
-            "marketing_pct_of_sales"
-          ],
-          "dimensions": [],
-          "applied_filters": [
-            "filter_storechain_fast"
-          ],
-          "sort": [],
-          "spec": {
-            "$schema": "https://vega.github.io/schema/vega-lite/v6.json",
-            "data": {
-              "name": "marketing_pct_of_sales"
-            },
-            "mark": {
-              "type": "text",
-              "fontSize": 28,
-              "fontWeight": "bold"
-            },
-            "encoding": {
-              "text": {
-                "field": "marketing_pct_of_sales",
-                "type": "quantitative",
-                "title": "Marketing Pct of Sales (FAST)"
-              }
-            }
-          }
-        },
-        {
-          "id": "kpi_mkt_pct_grand",
-          "display_name": "Marketing Pct of Sales - GRAND",
-          "description": "KPI card showing what percentage of GRAND banner sales revenue is allocated to marketing.",
+          "id": "kpi_marketing_pct_grand",
+          "display_name": "Key Value - Marketing Pct of Sales (GRAND)",
+          "description": "Shows marketing budget as a percentage of total sales for the GRAND store banner",
           "visual_type": "kpi_card",
           "metrics": [
             "marketing_pct_of_sales"
@@ -1184,9 +1071,9 @@
           }
         },
         {
-          "id": "kpi_mkt_pct_moda",
-          "display_name": "Marketing Pct of Sales - MODA",
-          "description": "KPI card showing what percentage of MODA banner sales revenue is allocated to marketing.",
+          "id": "kpi_marketing_pct_moda",
+          "display_name": "Key Value - Marketing Pct of Sales (MODA)",
+          "description": "Shows marketing budget as a percentage of total sales for the MODA store banner",
           "visual_type": "kpi_card",
           "metrics": [
             "marketing_pct_of_sales"
@@ -1216,321 +1103,22 @@
           }
         },
         {
-          "id": "combo_fast_dept",
-          "display_name": "Dual Axis Bar-Line - FAST",
-          "description": "Combo chart comparing Sales (bars) and Marketing Budget (line) across top 5 departments for the FAST store banner. Shows whether marketing investment correlates with sales by department.",
-          "visual_type": "combo_chart",
-          "metrics": [
-            "total_sales",
-            "total_marketing_budget"
-          ],
-          "dimensions": [
-            "department"
-          ],
-          "applied_filters": [
-            "filter_storechain_fast_with_nulls",
-            "rank_top5_fast_dept"
-          ],
-          "sort": [
-            {
-              "field": "total_sales",
-              "direction": "desc"
-            }
-          ],
-          "spec": {
-            "$schema": "https://vega.github.io/schema/vega-lite/v6.json",
-            "data": {
-              "name": "fast_dept_sales_mkt"
-            },
-            "layer": [
-              {
-                "mark": "bar",
-                "encoding": {
-                  "x": {
-                    "field": "department",
-                    "type": "nominal",
-                    "title": "Department"
-                  },
-                  "y": {
-                    "field": "total_sales",
-                    "type": "quantitative",
-                    "title": "Sales"
-                  }
-                }
-              },
-              {
-                "mark": "line",
-                "encoding": {
-                  "x": {
-                    "field": "department",
-                    "type": "nominal"
-                  },
-                  "y": {
-                    "field": "total_marketing_budget",
-                    "type": "quantitative",
-                    "title": "Marketing Budget"
-                  }
-                }
-              }
-            ],
-            "resolve": {
-              "scale": {
-                "y": "independent"
-              }
-            }
-          }
-        },
-        {
-          "id": "combo_grand_dept",
-          "display_name": "Dual Axis Bar-Line - GRAND",
-          "description": "Combo chart comparing Sales (bars) and Marketing Budget (line) across top 5 departments for the GRAND store banner.",
-          "visual_type": "combo_chart",
-          "metrics": [
-            "total_sales",
-            "total_marketing_budget"
-          ],
-          "dimensions": [
-            "department"
-          ],
-          "applied_filters": [
-            "filter_storechain_grand_with_nulls",
-            "rank_top5_grand_dept"
-          ],
-          "sort": [
-            {
-              "field": "total_sales",
-              "direction": "desc"
-            }
-          ],
-          "spec": {
-            "$schema": "https://vega.github.io/schema/vega-lite/v6.json",
-            "data": {
-              "name": "grand_dept_sales_mkt"
-            },
-            "layer": [
-              {
-                "mark": "bar",
-                "encoding": {
-                  "x": {
-                    "field": "department",
-                    "type": "nominal",
-                    "title": "Department"
-                  },
-                  "y": {
-                    "field": "total_sales",
-                    "type": "quantitative",
-                    "title": "Sales"
-                  }
-                }
-              },
-              {
-                "mark": "line",
-                "encoding": {
-                  "x": {
-                    "field": "department",
-                    "type": "nominal"
-                  },
-                  "y": {
-                    "field": "total_marketing_budget",
-                    "type": "quantitative",
-                    "title": "Marketing Budget"
-                  }
-                }
-              }
-            ],
-            "resolve": {
-              "scale": {
-                "y": "independent"
-              }
-            }
-          }
-        },
-        {
-          "id": "combo_moda_dept",
-          "display_name": "Dual Axis Bar-Line - MODA",
-          "description": "Combo chart comparing Sales (bars) and Marketing Budget (line) across top 5 departments for the MODA store banner. Highlights MODA's disproportionate marketing spend vs. sales.",
-          "visual_type": "combo_chart",
-          "metrics": [
-            "total_sales",
-            "total_marketing_budget"
-          ],
-          "dimensions": [
-            "department"
-          ],
-          "applied_filters": [
-            "filter_storechain_moda_with_nulls",
-            "rank_top5_moda_dept"
-          ],
-          "sort": [
-            {
-              "field": "total_sales",
-              "direction": "desc"
-            }
-          ],
-          "spec": {
-            "$schema": "https://vega.github.io/schema/vega-lite/v6.json",
-            "data": {
-              "name": "moda_dept_sales_mkt"
-            },
-            "layer": [
-              {
-                "mark": "bar",
-                "encoding": {
-                  "x": {
-                    "field": "department",
-                    "type": "nominal",
-                    "title": "Department"
-                  },
-                  "y": {
-                    "field": "total_sales",
-                    "type": "quantitative",
-                    "title": "Sales"
-                  }
-                }
-              },
-              {
-                "mark": "line",
-                "encoding": {
-                  "x": {
-                    "field": "department",
-                    "type": "nominal"
-                  },
-                  "y": {
-                    "field": "total_marketing_budget",
-                    "type": "quantitative",
-                    "title": "Marketing Budget"
-                  }
-                }
-              }
-            ],
-            "resolve": {
-              "scale": {
-                "y": "independent"
-              }
-            }
-          }
-        },
-        {
-          "id": "text_store_banner",
-          "display_name": "Store Banner Dashboard Text",
-          "description": "Descriptive text guiding users: View high-level metrics based on each banner's performance with respect to each other and across departments.",
-          "visual_type": "text",
-          "metrics": [],
-          "dimensions": [],
-          "applied_filters": [],
-          "sort": []
-        }
-      ]
-    },
-    {
-      "id": "geographic_effectiveness",
-      "display_name": "Geographic Effectiveness",
-      "description": "Analyzes sales and ROI by region and state. Includes what-if sliders for sales and cost adjustments to evaluate regions for new store openings or improvements.",
-      "visuals": [
-        {
-          "id": "map_roi_region",
-          "display_name": "ROI Region Map",
-          "description": "Geographic map showing Adjusted ROI by US state. Color encodes the ROI value to quickly identify high- and low-performing states.",
-          "visual_type": "map",
-          "metrics": [
-            "adjust_roi"
-          ],
-          "dimensions": [
-            "state",
-            "state_lat",
-            "state_long"
-          ],
-          "applied_filters": [
-            "filter_us_states"
-          ],
-          "sort": [],
-          "spec": {
-            "$schema": "https://vega.github.io/schema/vega-lite/v6.json",
-            "data": {
-              "name": "roi_by_state"
-            },
-            "mark": "geoshape",
-            "projection": {
-              "type": "mercator"
-            },
-            "encoding": {
-              "color": {
-                "field": "adjust_roi",
-                "type": "quantitative",
-                "title": "Adjusted ROI"
-              },
-              "latitude": {
-                "field": "state_lat",
-                "type": "quantitative"
-              },
-              "longitude": {
-                "field": "state_long",
-                "type": "quantitative"
-              }
-            }
-          }
-        },
-        {
-          "id": "bar_sales_region",
-          "display_name": "Sales Region",
-          "description": "Bar chart comparing regular Sales and Adjusted Sales by region. Allows users to see the impact of the what-if sales adjustment across regions.",
-          "visual_type": "bar_chart",
-          "metrics": [
-            "total_sales",
-            "total_adjusted_sales"
-          ],
-          "dimensions": [
-            "region"
-          ],
-          "applied_filters": [
-            "filter_us_states"
-          ],
-          "sort": [
-            {
-              "field": "total_sales",
-              "direction": "desc"
-            }
-          ],
-          "spec": {
-            "$schema": "https://vega.github.io/schema/vega-lite/v6.json",
-            "data": {
-              "name": "sales_by_region"
-            },
-            "mark": "bar",
-            "encoding": {
-              "x": {
-                "field": "region",
-                "type": "nominal",
-                "title": "Region"
-              },
-              "y": {
-                "field": "total_sales",
-                "type": "quantitative",
-                "title": "Sales"
-              },
-              "color": {
-                "field": "measure_name",
-                "type": "nominal",
-                "title": "Measure"
-              }
-            }
-          }
-        },
-        {
-          "id": "kpi_gauge",
-          "display_name": "Gauge 1",
-          "description": "KPI gauge showing an overall adjusted performance metric (Adjusted ROI or Sales per SQFT).",
+          "id": "kpi_marketing_pct_fast",
+          "display_name": "Key Value - Marketing Pct of Sales (FAST)",
+          "description": "Shows marketing budget as a percentage of total sales for the FAST store banner",
           "visual_type": "kpi_card",
           "metrics": [
-            "adjust_roi"
+            "marketing_pct_of_sales"
           ],
           "dimensions": [],
-          "applied_filters": [],
+          "applied_filters": [
+            "filter_storechain_fast"
+          ],
           "sort": [],
           "spec": {
             "$schema": "https://vega.github.io/schema/vega-lite/v6.json",
             "data": {
-              "name": "gauge_metric"
+              "name": "marketing_pct_of_sales"
             },
             "mark": {
               "type": "text",
@@ -1539,109 +1127,215 @@
             },
             "encoding": {
               "text": {
-                "field": "adjust_roi",
+                "field": "marketing_pct_of_sales",
                 "type": "quantitative",
-                "title": "Adjusted ROI"
+                "title": "Marketing Pct of Sales (FAST)"
               }
             }
           }
         },
         {
-          "id": "prompt_sales_change",
-          "display_name": "Sales Change Filter",
-          "description": "Slider prompt controlling the sales_change what-if parameter. Dragging adjusts the Adjusted Sales and Adjusted ROI calculations in real time.",
-          "visual_type": "filter_control",
-          "metrics": [],
-          "dimensions": [],
-          "applied_filters": [],
-          "sort": []
-        },
-        {
-          "id": "text_geo_effectiveness",
-          "display_name": "Geographic Effectiveness Text",
-          "description": "Descriptive text: Identify the performance of various regions and states. Use this analysis to make decisions on new store locations and improvements.",
-          "visual_type": "text",
-          "metrics": [],
-          "dimensions": [],
-          "applied_filters": [],
-          "sort": []
-        }
-      ]
-    },
-    {
-      "id": "promotion_effectiveness",
-      "display_name": "Promotion Effectiveness",
-      "description": "Evaluates promotional performance by comparing actual revenue to forecast and baseline revenue. Helps marketers understand incremental lift and forecast accuracy for specific product promotions.",
-      "visuals": [
-        {
-          "id": "treemap_sales_vs_base",
-          "display_name": "Sales vs Base Tree Map",
-          "description": "Tree map showing product-level promotional lift (Actual vs Baseline). Size and color encode the magnitude of lift for 12 specific Iamz dog food products.",
-          "visual_type": "treemap",
+          "id": "combo_merchandise_grand",
+          "display_name": "Dual Axis Bar-Line - Merchandise Hierarchy (GRAND)",
+          "description": "Compares total sales (bar) and average marketing budget (line) across top 5 departments for the GRAND banner. Supports drill-down through the Merchandise Hierarchy.",
+          "visual_type": "combo_chart",
           "metrics": [
-            "actual_vs_baseline"
+            "total_sales",
+            "avg_marketing_budget"
           ],
           "dimensions": [
-            "product_name"
+            "department",
+            "class"
           ],
           "applied_filters": [
-            "filter_iamz_products"
+            "filter_storechain_grand_with_nulls",
+            "rank_top5_sales_grand"
           ],
-          "sort": [],
+          "sort": [
+            {
+              "field": "total_sales",
+              "direction": "desc"
+            }
+          ],
           "spec": {
             "$schema": "https://vega.github.io/schema/vega-lite/v6.json",
             "data": {
-              "name": "promo_product_lift"
+              "name": "rand_retaildemo"
             },
-            "mark": "rect",
-            "encoding": {
-              "color": {
-                "field": "actual_vs_baseline",
-                "type": "quantitative",
-                "title": "Actual vs Baseline %"
+            "layer": [
+              {
+                "mark": "bar",
+                "encoding": {
+                  "x": {
+                    "field": "department",
+                    "type": "nominal",
+                    "title": "Department"
+                  },
+                  "y": {
+                    "field": "total_sales",
+                    "type": "quantitative",
+                    "title": "Sales"
+                  }
+                }
               },
-              "size": {
-                "field": "actual_vs_baseline",
-                "type": "quantitative"
-              },
-              "text": {
-                "field": "product_name",
-                "type": "nominal"
+              {
+                "mark": "line",
+                "encoding": {
+                  "x": {
+                    "field": "department",
+                    "type": "nominal"
+                  },
+                  "y": {
+                    "field": "avg_marketing_budget",
+                    "type": "quantitative",
+                    "title": "Marketing Budget"
+                  }
+                }
+              }
+            ],
+            "resolve": {
+              "scale": {
+                "y": "independent"
               }
             }
           }
         },
         {
-          "id": "crosstab_promo_details",
-          "display_name": "Promotion Details",
-          "description": "Crosstab showing detailed promotion metrics (revenue actual, baseline, expected, price impacts) broken down by Product Size, Product Age, and Product Health custom groups.",
-          "visual_type": "crosstab",
+          "id": "combo_merchandise_moda",
+          "display_name": "Dual Axis Bar-Line - Merchandise Hierarchy (MODA)",
+          "description": "Compares total sales (bar) and average marketing budget (line) across top 5 departments for the MODA banner. Supports drill-down through the Merchandise Hierarchy.",
+          "visual_type": "combo_chart",
           "metrics": [
-            "total_revenue_actual",
-            "total_revenue_baseline",
-            "total_revenue_expected",
-            "total_revenue_expected_change",
-            "total_halo_cannibal_impact",
-            "total_own_price_impact",
-            "total_total_price_impact",
-            "actual_vs_forecast",
-            "actual_vs_baseline",
-            "forecast_vs_baseline"
+            "total_sales",
+            "avg_marketing_budget"
           ],
           "dimensions": [
-            "product_size",
-            "product_age",
-            "product_health"
+            "department",
+            "class"
           ],
           "applied_filters": [
-            "filter_promo_not_missing"
+            "filter_storechain_moda_with_nulls",
+            "rank_top5_sales_moda"
           ],
-          "sort": []
+          "sort": [
+            {
+              "field": "total_sales",
+              "direction": "desc"
+            }
+          ],
+          "spec": {
+            "$schema": "https://vega.github.io/schema/vega-lite/v6.json",
+            "data": {
+              "name": "rand_retaildemo"
+            },
+            "layer": [
+              {
+                "mark": "bar",
+                "encoding": {
+                  "x": {
+                    "field": "department",
+                    "type": "nominal",
+                    "title": "Department"
+                  },
+                  "y": {
+                    "field": "total_sales",
+                    "type": "quantitative",
+                    "title": "Sales"
+                  }
+                }
+              },
+              {
+                "mark": "line",
+                "encoding": {
+                  "x": {
+                    "field": "department",
+                    "type": "nominal"
+                  },
+                  "y": {
+                    "field": "avg_marketing_budget",
+                    "type": "quantitative",
+                    "title": "Marketing Budget"
+                  }
+                }
+              }
+            ],
+            "resolve": {
+              "scale": {
+                "y": "independent"
+              }
+            }
+          }
         },
         {
-          "id": "text_promo_effectiveness",
-          "display_name": "Promotion Effectiveness Text",
-          "description": "Descriptive text: Assess the success of promotions by comparing actual revenue to forecast and baseline revenue.",
+          "id": "combo_merchandise_fast",
+          "display_name": "Dual Axis Bar-Line - Merchandise Hierarchy (FAST)",
+          "description": "Compares total sales (bar) and average marketing budget (line) across top 5 departments for the FAST banner. Supports drill-down through the Merchandise Hierarchy.",
+          "visual_type": "combo_chart",
+          "metrics": [
+            "total_sales",
+            "avg_marketing_budget"
+          ],
+          "dimensions": [
+            "department",
+            "class"
+          ],
+          "applied_filters": [
+            "filter_storechain_fast_with_nulls",
+            "rank_top5_sales_fast"
+          ],
+          "sort": [
+            {
+              "field": "total_sales",
+              "direction": "desc"
+            }
+          ],
+          "spec": {
+            "$schema": "https://vega.github.io/schema/vega-lite/v6.json",
+            "data": {
+              "name": "rand_retaildemo"
+            },
+            "layer": [
+              {
+                "mark": "bar",
+                "encoding": {
+                  "x": {
+                    "field": "department",
+                    "type": "nominal",
+                    "title": "Department"
+                  },
+                  "y": {
+                    "field": "total_sales",
+                    "type": "quantitative",
+                    "title": "Sales"
+                  }
+                }
+              },
+              {
+                "mark": "line",
+                "encoding": {
+                  "x": {
+                    "field": "department",
+                    "type": "nominal"
+                  },
+                  "y": {
+                    "field": "avg_marketing_budget",
+                    "type": "quantitative",
+                    "title": "Marketing Budget"
+                  }
+                }
+              }
+            ],
+            "resolve": {
+              "scale": {
+                "y": "independent"
+              }
+            }
+          }
+        },
+        {
+          "id": "text_store_banner_dashboard",
+          "display_name": "Store Banner Dashboard Text",
+          "description": "Descriptive subtitle: View high-level metrics based on each banner's performance with respect to each other and across departments.",
           "visual_type": "text",
           "metrics": [],
           "dimensions": [],
@@ -1653,12 +1347,121 @@
     {
       "id": "store_banner_dashboard_info",
       "display_name": "Store Banner Dashboard Information",
-      "description": "Hidden help page explaining how to interpret the Store Banner Dashboard. Accessed via 'More information' link.",
+      "description": "Hidden page with contextual help text explaining how to interpret the Store Banner Dashboard.",
       "visuals": [
         {
           "id": "text_store_banner_info",
           "display_name": "Store Banner Dashboard Information Text",
-          "description": "Detailed explanation of the Store Banner Dashboard: comparing FAST, GRAND, MODA banners; interpreting KPI tiles and bar-line charts; drill-down instructions.",
+          "description": "Detailed explanation of banner dashboard interpretation, including insights on MODA's marketing budget inefficiency and drill-down instructions.",
+          "visual_type": "text",
+          "metrics": [],
+          "dimensions": [],
+          "applied_filters": [],
+          "sort": []
+        }
+      ]
+    },
+    {
+      "id": "geographic_effectiveness",
+      "display_name": "Geographic Effectiveness",
+      "description": "Shows sales vs adjusted sales by U.S. region and adjusted ROI by state on a choropleth map. Supports what-if analysis via a sales change slider. Answers: Which regions and states generate the highest sales and ROI?",
+      "visuals": [
+        {
+          "id": "filter_sales_change",
+          "display_name": "Sales Change Filter",
+          "description": "Slider prompt controlling the sales_change parameter for what-if analysis of regional sales adjustments.",
+          "visual_type": "filter_control",
+          "metrics": [],
+          "dimensions": [],
+          "applied_filters": [],
+          "sort": []
+        },
+        {
+          "id": "bar_sales_region",
+          "display_name": "Sales Region",
+          "description": "Horizontal bar chart comparing actual sales and adjusted sales across U.S. regions. Selecting a bar cross-filters the map.",
+          "visual_type": "bar_chart",
+          "metrics": [
+            "total_sales",
+            "total_adjusted_sales"
+          ],
+          "dimensions": [
+            "custom_region"
+          ],
+          "applied_filters": [
+            "filter_us_states_bar"
+          ],
+          "sort": [
+            {
+              "field": "total_sales",
+              "direction": "desc"
+            }
+          ],
+          "spec": {
+            "$schema": "https://vega.github.io/schema/vega-lite/v6.json",
+            "data": {
+              "name": "rand_retaildemo"
+            },
+            "mark": "bar",
+            "encoding": {
+              "y": {
+                "field": "custom_region",
+                "type": "nominal",
+                "title": "Region"
+              },
+              "x": {
+                "field": "total_sales",
+                "type": "quantitative",
+                "title": "Sales"
+              },
+              "color": {
+                "field": "measure_type",
+                "type": "nominal",
+                "title": "Measure",
+                "legend": {
+                  "title": "Measure"
+                }
+              }
+            }
+          }
+        },
+        {
+          "id": "map_roi_region",
+          "display_name": "ROI Region Map",
+          "description": "Choropleth map of the continental U.S. showing Adjusted ROI by state. Darker shading indicates higher ROI.",
+          "visual_type": "map",
+          "metrics": [
+            "adjust_roi"
+          ],
+          "dimensions": [
+            "state_region"
+          ],
+          "applied_filters": [
+            "filter_us_states_map"
+          ],
+          "sort": [],
+          "spec": {
+            "$schema": "https://vega.github.io/schema/vega-lite/v6.json",
+            "data": {
+              "name": "rand_retaildemo"
+            },
+            "mark": "geoshape",
+            "projection": {
+              "type": "mercator"
+            },
+            "encoding": {
+              "color": {
+                "field": "adjust_roi",
+                "type": "quantitative",
+                "title": "Adjusted ROI"
+              }
+            }
+          }
+        },
+        {
+          "id": "text_geographic_effectiveness",
+          "display_name": "Geographic Effectiveness Text",
+          "description": "Page subtitle: Identify the performance of various regions and states for decisions on new store locations and improvements.",
           "visual_type": "text",
           "metrics": [],
           "dimensions": [],
@@ -1670,12 +1473,125 @@
     {
       "id": "geographic_effectiveness_info",
       "display_name": "Geographic Effectiveness Information",
-      "description": "Hidden help page explaining how to use the Geographic Effectiveness page, including slider interactions and geo map tooltips.",
+      "description": "Hidden page with contextual help text explaining how to use the geographic analysis tools and what-if slider.",
       "visuals": [
         {
-          "id": "text_geo_info",
+          "id": "text_geographic_info",
           "display_name": "Geographic Effectiveness Information Text",
-          "description": "Detailed explanation of the Geographic Effectiveness page: bar chart interactions, slider adjustments, and geo map hover tooltips.",
+          "description": "Detailed explanation of geographic effectiveness page including slider usage, bar chart cross-filtering, and map hover tooltips.",
+          "visual_type": "text",
+          "metrics": [],
+          "dimensions": [],
+          "applied_filters": [],
+          "sort": []
+        }
+      ]
+    },
+    {
+      "id": "promotion_effectiveness",
+      "display_name": "Promotion Effectiveness",
+      "description": "Assesses promotional success by comparing actual revenue to forecast and baseline. Answers: Are promotions generating incremental revenue? How accurate were forecasts? Which products benefit most?",
+      "visuals": [
+        {
+          "id": "treemap_actual_vs_baseline",
+          "display_name": "Sales vs Base Tree Map",
+          "description": "Tree map showing actual revenue (tile size) and actual vs baseline lift (tile color) by product name for 12 Iamz products. Selecting a product cross-filters the gauge and crosstab.",
+          "visual_type": "treemap",
+          "metrics": [
+            "total_revenue_actual",
+            "actual_vs_baseline"
+          ],
+          "dimensions": [
+            "product_name"
+          ],
+          "applied_filters": [
+            "filter_iamz_products"
+          ],
+          "sort": [
+            {
+              "field": "total_revenue_actual",
+              "direction": "desc"
+            }
+          ],
+          "spec": {
+            "$schema": "https://vega.github.io/schema/vega-lite/v6.json",
+            "data": {
+              "name": "promo_effectiveness"
+            },
+            "mark": "rect",
+            "encoding": {
+              "size": {
+                "field": "total_revenue_actual",
+                "type": "quantitative",
+                "title": "Revenue Actual"
+              },
+              "color": {
+                "field": "actual_vs_baseline",
+                "type": "quantitative",
+                "title": "Actual vs Baseline"
+              },
+              "text": {
+                "field": "product_name",
+                "type": "nominal"
+              }
+            }
+          }
+        },
+        {
+          "id": "gauge_promotional_lift",
+          "display_name": "Promotional Sales Lift",
+          "description": "Gauge/KPI showing the overall actual vs baseline percentage lift across all filtered products",
+          "visual_type": "kpi_card",
+          "metrics": [
+            "actual_vs_baseline"
+          ],
+          "dimensions": [],
+          "applied_filters": [
+            "filter_iamz_products"
+          ],
+          "sort": [],
+          "spec": {
+            "$schema": "https://vega.github.io/schema/vega-lite/v6.json",
+            "data": {
+              "name": "promo_effectiveness"
+            },
+            "mark": {
+              "type": "text",
+              "fontSize": 28,
+              "fontWeight": "bold"
+            },
+            "encoding": {
+              "text": {
+                "field": "actual_vs_baseline",
+                "type": "quantitative",
+                "title": "Promotional Sales Lift"
+              }
+            }
+          }
+        },
+        {
+          "id": "crosstab_promotion_details",
+          "display_name": "Promotion Details",
+          "description": "Crosstab showing actual vs baseline and actual vs forecast percentages broken down by Product Age, Product Health, and Product Size categories",
+          "visual_type": "crosstab",
+          "metrics": [
+            "actual_vs_baseline",
+            "actual_vs_forecast"
+          ],
+          "dimensions": [
+            "product_age",
+            "product_health",
+            "product_size"
+          ],
+          "applied_filters": [
+            "filter_promo_not_missing"
+          ],
+          "sort": []
+        },
+        {
+          "id": "text_promotion_effectiveness",
+          "display_name": "Promotion Effectiveness Text",
+          "description": "Page subtitle: Assess the success of promotions by comparing actual revenue to forecast and baseline revenue.",
           "visual_type": "text",
           "metrics": [],
           "dimensions": [],
@@ -1687,12 +1603,12 @@
     {
       "id": "promotion_effectiveness_info",
       "display_name": "Promotion Effectiveness Information",
-      "description": "Hidden help page explaining how to use the Promotion Effectiveness page, including product selection and promotional sales lift interpretation.",
+      "description": "Hidden page with contextual help text explaining how to interpret promotion effectiveness metrics and use cross-filtering.",
       "visuals": [
         {
-          "id": "text_promo_info",
+          "id": "text_promotion_info",
           "display_name": "Promotion Effectiveness Information Text",
-          "description": "Detailed explanation of the Promotion Effectiveness page: tree map interactions, crosstab filtering, and KPI interpretation.",
+          "description": "Detailed explanation of promotion effectiveness analysis including interpretation of baseline vs forecast comparisons and product selection interactions.",
           "visual_type": "text",
           "metrics": [],
           "dimensions": [],

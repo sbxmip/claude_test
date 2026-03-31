@@ -93,6 +93,25 @@
       "referenced_data_items": []
     },
     {
+      "name": "ve7268",
+      "label": "Promotion Details",
+      "type": "Crosstab",
+      "data_definition": "dd7309",
+      "graph_type": null,
+      "result_definitions": "dd7311",
+      "referenced_data_items": []
+    },
+    {
+      "name": "ve7497",
+      "label": "Sales Change Filter",
+      "type": "Prompt",
+      "data_definition": "",
+      "graph_type": null,
+      "result_definitions": "",
+      "referenced_data_items": [],
+      "prompt_definition": ""
+    },
+    {
       "name": "ve152",
       "label": "Dual Axis Bar-Line - Merchandise Hierarchy 3",
       "type": "Graph",
@@ -241,25 +260,6 @@
       "result_definitions": "",
       "referenced_data_items": [],
       "text_content": "Promotion Effectiveness   The Promotion Effectiveness report helps marketers know how promotions are performing compared with forecast and baseline. If a promotion performs well against a baseline, that shows effective targeting and offer management.  Showing the forecast also helps the department understand how close to  projections it is. Being far off of forecasts can lead to marketing budget mismanagement.   The top right of the report shows the overall metric on how a promotion performed. The results are compared with the baseline (the incremental impact) and the forecast (compared with the target), and the forecast is compared with the baseline (initial projected incremental impact). In this case, even though the promotion had an incremental impact, the forecast was too high. This could lead to revenue projections that are unattainable.   Select Iamz Puppy Large Breed from the left tile chart to highlight the corresponding Size, Age and Health table on the right. The Promotional Sales Lift also adjusts to the selected product.    If you select a value on the Small product line in the table, the four products associated will be highlighted."
-    },
-    {
-      "name": "ve7268",
-      "label": "Promotion Details",
-      "type": "Crosstab",
-      "data_definition": "dd7309",
-      "graph_type": null,
-      "result_definitions": "dd7311",
-      "referenced_data_items": []
-    },
-    {
-      "name": "ve7497",
-      "label": "Sales Change Filter",
-      "type": "Prompt",
-      "data_definition": "",
-      "graph_type": null,
-      "result_definitions": "",
-      "referenced_data_items": [],
-      "prompt_definition": ""
     }
   ]
 }

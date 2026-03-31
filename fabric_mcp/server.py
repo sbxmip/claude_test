@@ -528,20 +528,46 @@ def write_delta_table(workspace_id: str, lakehouse_id: str,
     try:
         pa_table = pq.read_table(local_parquet_path)
 
-        # On overwrite: drop the table folder so delta-rs starts from a clean path
-        if mode == "overwrite":
+        # Write directly via delta-rs in overwrite mode WITHOUT deleting the
+        # directory first.  Deleting + recreating causes OneLake's SQL Analytics
+        # Endpoint metastore to keep stale Parquet file references (the old UUID
+        # filenames) and fail refresh with "underlying location does not exist".
+        # Writing via a proper Delta transaction means the endpoint follows the
+        # Delta log and correctly resolves the new file paths.
+        try:
+            write_deltalake(
+                table_uri, pa_table,
+                mode=mode,
+                schema_mode="overwrite",   # allow schema evolution on overwrite
+                storage_options=storage_options,
+            )
+        except Exception:
+            # Fallback: if delta-rs can't read the existing log (e.g. corrupted
+            # or first-ever write to a partially-initialised path), drop the
+            # directory and retry from scratch.
             _drop_onelake_table_folder(
                 workspace_id=workspace_id,
                 lakehouse_id=lakehouse_id,
                 schema=schema,
                 table_name=table_name,
             )
-
-        write_deltalake(table_uri, pa_table, mode=mode, storage_options=storage_options)
+            write_deltalake(
+                table_uri, pa_table,
+                mode="overwrite",
+                schema_mode="overwrite",
+                storage_options=storage_options,
+            )
 
         delta_version = None
         try:
-            delta_version = DeltaTable(table_uri, storage_options=storage_options).version()
+            dt = DeltaTable(table_uri, storage_options=storage_options)
+            delta_version = dt.version()
+            # VACUUM with retention=0 to physically delete any Parquet files
+            # marked as removed by the overwrite transaction.  Keeps OneLake
+            # clean (no stale files) and prevents "underlying location does not
+            # exist" errors if a future run drops+rewrites the directory.
+            if mode == "overwrite":
+                dt.vacuum(retention_hours=0, enforce_retention_duration=False, dry_run=False)
         except Exception:
             pass
 
@@ -1065,24 +1091,38 @@ def refresh_semantic_model(workspace_id: str, semantic_model_id: str) -> str:
 
         # Poll the refresh history until the latest entry completes (max 10 min).
         # Import mode refresh of a SQL Analytics Endpoint can take several minutes.
-        history_url = url + "?$top=1"
+        # Status flow: Unknown → InProgress → Completed | Failed | Cancelled
+        # NOTE: the history entry may not appear immediately after POST — wait up to
+        # 60 s for the first entry before starting the main poll loop.
+        history_url = url + "?%24top=1"
         deadline = time.time() + 600
+        last_state = ""
         with httpx.Client(timeout=30) as client:
-            while time.time() < deadline:
+            # Wait for the entry to appear (up to 60 s, 5 s intervals)
+            for _ in range(12):
                 time.sleep(5)
                 hr = client.get(history_url, headers=_powerbi_headers())
                 hr.raise_for_status()
+                if hr.json().get("value"):
+                    break
+
+            while time.time() < deadline:
+                hr = client.get(history_url, headers=_powerbi_headers())
+                hr.raise_for_status()
                 entries = hr.json().get("value", [])
-                if not entries:
-                    continue
-                entry = entries[0]
-                state = entry.get("status", "")
-                if state == "Completed":
-                    return json.dumps({"status": "ok", "refreshId": entry.get("requestId", "")})
-                if state in ("Failed", "Cancelled"):
-                    return json.dumps({"status": "error", "message": state,
-                                       "detail": entry.get("serviceExceptionJson", "")})
-        return json.dumps({"status": "error", "message": "Refresh timed out after 5 minutes"})
+                if entries:
+                    entry = entries[0]
+                    state = entry.get("status", "Unknown")
+                    if state != last_state:
+                        print(f"      [refresh] status={state}")
+                        last_state = state
+                    if state == "Completed":
+                        return json.dumps({"status": "ok", "refreshId": entry.get("requestId", "")})
+                    if state in ("Failed", "Cancelled"):
+                        return json.dumps({"status": "error", "message": state,
+                                           "detail": entry.get("serviceExceptionJson", "")})
+                time.sleep(8)
+        return json.dumps({"status": "error", "message": "Refresh timed out after 10 minutes"})
     except httpx.HTTPStatusError as e:
         return json.dumps({"status": "error", "message": str(e)})
 

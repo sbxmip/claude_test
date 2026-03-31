@@ -333,19 +333,55 @@
           "name": "bi157",
           "label": "Merchandise Hierarchy",
           "type": "Hierarchy",
-          "xref": ""
+          "xref": "",
+          "levels": [
+            {
+              "bi_name": "bi29",
+              "xref": "Department",
+              "label": ""
+            },
+            {
+              "bi_name": "bi28",
+              "xref": "Class",
+              "label": ""
+            }
+          ]
         },
         {
           "name": "bi6456",
           "label": "Hierarchy 1",
           "type": "Hierarchy",
-          "xref": ""
+          "xref": "",
+          "levels": [
+            {
+              "bi_name": "bi6322",
+              "xref": "Region",
+              "label": "Custom Region"
+            },
+            {
+              "bi_name": "bi362",
+              "xref": "State",
+              "label": "State -  Region"
+            }
+          ]
         },
         {
           "name": "bi6505",
           "label": "Hierarchy 2",
           "type": "Hierarchy",
-          "xref": ""
+          "xref": "",
+          "levels": [
+            {
+              "bi_name": "bi31",
+              "xref": "Region_2",
+              "label": ""
+            },
+            {
+              "bi_name": "bi362",
+              "xref": "State",
+              "label": "State -  Region"
+            }
+          ]
         }
       ]
     },

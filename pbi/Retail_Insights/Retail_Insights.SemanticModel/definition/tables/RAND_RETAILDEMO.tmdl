@@ -1,0 +1,334 @@
+table RAND_RETAILDEMO
+    lineageTag: a1b2c3d4-e5f6-7890-abcd-ef1234567890
+
+    column brand_name1
+        dataType: string
+        lineageTag: b1000001-0001-0001-0001-000000000001
+        sourceColumn: brand_name1
+        summarizeBy: none
+
+    column ChannelType
+        dataType: string
+        lineageTag: b1000001-0001-0001-0001-000000000002
+        sourceColumn: ChannelType
+        summarizeBy: none
+
+    column City
+        dataType: string
+        lineageTag: b1000001-0001-0001-0001-000000000003
+        sourceColumn: City
+        summarizeBy: none
+
+    column City_Lat
+        dataType: double
+        lineageTag: b1000001-0001-0001-0001-000000000004
+        sourceColumn: City_Lat
+        summarizeBy: none
+
+    column City_Long
+        dataType: double
+        lineageTag: b1000001-0001-0001-0001-000000000005
+        sourceColumn: City_Long
+        summarizeBy: none
+
+    column Country
+        dataType: string
+        lineageTag: b1000001-0001-0001-0001-000000000006
+        sourceColumn: Country
+        summarizeBy: none
+
+    column Country_Lat
+        dataType: double
+        lineageTag: b1000001-0001-0001-0001-000000000007
+        sourceColumn: Country_Lat
+        summarizeBy: none
+
+    column Country_Long
+        dataType: double
+        lineageTag: b1000001-0001-0001-0001-000000000008
+        sourceColumn: Country_Long
+        summarizeBy: none
+
+    column age_bucket
+        dataType: string
+        lineageTag: b1000001-0001-0001-0001-000000000009
+        sourceColumn: age_bucket
+        summarizeBy: none
+
+    column CustID
+        dataType: string
+        lineageTag: b1000001-0001-0001-0001-000000000010
+        sourceColumn: CustID
+        summarizeBy: none
+
+    column loyalty_card
+        dataType: string
+        lineageTag: b1000001-0001-0001-0001-000000000011
+        sourceColumn: loyalty_card
+        summarizeBy: none
+
+    column bucket
+        dataType: string
+        lineageTag: b1000001-0001-0001-0001-000000000012
+        sourceColumn: bucket
+        summarizeBy: none
+
+    column MDY
+        dataType: string
+        lineageTag: b1000001-0001-0001-0001-000000000013
+        sourceColumn: MDY
+        summarizeBy: none
+
+    column brand_name
+        dataType: string
+        lineageTag: b1000001-0001-0001-0001-000000000014
+        sourceColumn: brand_name
+        summarizeBy: none
+
+    column Class
+        dataType: string
+        lineageTag: b1000001-0001-0001-0001-000000000015
+        sourceColumn: Class
+        summarizeBy: none
+
+    column Department
+        dataType: string
+        lineageTag: b1000001-0001-0001-0001-000000000016
+        sourceColumn: Department
+        summarizeBy: none
+
+    column Region
+        dataType: string
+        lineageTag: b1000001-0001-0001-0001-000000000017
+        sourceColumn: Region
+        summarizeBy: none
+
+    column Region_2
+        dataType: string
+        lineageTag: b1000001-0001-0001-0001-000000000018
+        sourceColumn: Region_2
+        summarizeBy: none
+
+    column Region_2_Lat
+        dataType: double
+        lineageTag: b1000001-0001-0001-0001-000000000019
+        sourceColumn: Region_2_Lat
+        summarizeBy: none
+
+    column Region_2_Long
+        dataType: double
+        lineageTag: b1000001-0001-0001-0001-000000000020
+        sourceColumn: Region_2_Long
+        summarizeBy: none
+
+    column Region_Lat
+        dataType: double
+        lineageTag: b1000001-0001-0001-0001-000000000021
+        sourceColumn: Region_Lat
+        summarizeBy: none
+
+    column Region_Long
+        dataType: double
+        lineageTag: b1000001-0001-0001-0001-000000000022
+        sourceColumn: Region_Long
+        summarizeBy: none
+
+    column State
+        dataType: string
+        lineageTag: b1000001-0001-0001-0001-000000000023
+        sourceColumn: State
+        summarizeBy: none
+
+    column State_Lat
+        dataType: double
+        lineageTag: b1000001-0001-0001-0001-000000000024
+        sourceColumn: State_Lat
+        summarizeBy: none
+
+    column State_Long
+        dataType: double
+        lineageTag: b1000001-0001-0001-0001-000000000025
+        sourceColumn: State_Long
+        summarizeBy: none
+
+    column Storechain
+        dataType: string
+        lineageTag: b1000001-0001-0001-0001-000000000026
+        sourceColumn: Storechain
+        summarizeBy: none
+
+    column Storechain1
+        dataType: string
+        lineageTag: b1000001-0001-0001-0001-000000000027
+        sourceColumn: Storechain1
+        summarizeBy: none
+
+    column StoreNum
+        dataType: string
+        lineageTag: b1000001-0001-0001-0001-000000000028
+        sourceColumn: StoreNum
+        summarizeBy: none
+
+    column Date
+        dataType: dateTime
+        lineageTag: b1000001-0001-0001-0001-000000000029
+        sourceColumn: Date
+        summarizeBy: none
+
+    column trx_dow_new
+        dataType: string
+        lineageTag: b1000001-0001-0001-0001-000000000030
+        sourceColumn: trx_dow_new
+        summarizeBy: none
+
+    column trx_tod
+        dataType: string
+        lineageTag: b1000001-0001-0001-0001-000000000031
+        sourceColumn: trx_tod
+        summarizeBy: none
+
+    column trx_hr_char
+        dataType: string
+        lineageTag: b1000001-0001-0001-0001-000000000032
+        sourceColumn: trx_hr_char
+        summarizeBy: none
+
+    column Year
+        dataType: int64
+        lineageTag: b1000001-0001-0001-0001-000000000033
+        sourceColumn: Year
+        summarizeBy: none
+
+    column age
+        dataType: double
+        lineageTag: b1000001-0001-0001-0001-000000000034
+        sourceColumn: age
+        summarizeBy: average
+
+    column Margin
+        dataType: double
+        lineageTag: b1000001-0001-0001-0001-000000000035
+        sourceColumn: Margin
+        summarizeBy: sum
+
+    column mkt_bdgt
+        dataType: double
+        lineageTag: b1000001-0001-0001-0001-000000000036
+        sourceColumn: mkt_bdgt
+        summarizeBy: average
+
+    column Sales
+        dataType: double
+        lineageTag: b1000001-0001-0001-0001-000000000037
+        sourceColumn: Sales
+        summarizeBy: sum
+
+    column Cost
+        dataType: double
+        lineageTag: b1000001-0001-0001-0001-000000000038
+        sourceColumn: Cost
+        summarizeBy: sum
+
+    column Storeage
+        dataType: double
+        lineageTag: b1000001-0001-0001-0001-000000000039
+        sourceColumn: Storeage
+        summarizeBy: average
+
+    column sss
+        dataType: double
+        lineageTag: b1000001-0001-0001-0001-000000000040
+        sourceColumn: sss
+        summarizeBy: average
+
+    measure 'Total Sales' = SUM(RAND_RETAILDEMO[Sales])
+        lineageTag: c1000001-0001-0001-0001-000000000001
+        formatString: $ #,##0
+
+    measure 'Total Cost' = SUM(RAND_RETAILDEMO[Cost])
+        lineageTag: c1000001-0001-0001-0001-000000000002
+        formatString: $ #,##0
+
+    measure 'Average Marketing Budget' = AVERAGE(RAND_RETAILDEMO[mkt_bdgt])
+        lineageTag: c1000001-0001-0001-0001-000000000003
+        formatString: $ #,##0
+
+    measure 'Total Adjusted Sales' = SUMX(RAND_RETAILDEMO, IF(RAND_RETAILDEMO[Region] IN {"US_MW", "US_CS", "US_AT", "LATA", "EU", "ASIA"}, RAND_RETAILDEMO[Sales] * (0.85 + [Sales Change Value]), RAND_RETAILDEMO[Sales] * (1 + [Sales Change Value])))
+        lineageTag: c1000001-0001-0001-0001-000000000004
+        formatString: $ #,##0
+
+    measure 'Total Adjusted Sales Cost' = SUMX(RAND_RETAILDEMO, RAND_RETAILDEMO[Cost] * (1 + [Cost Change Value]))
+        lineageTag: c1000001-0001-0001-0001-000000000005
+        formatString: $ #,##0
+
+    measure 'Average Store Square Footage' = AVERAGE(RAND_RETAILDEMO[sss])
+        lineageTag: c1000001-0001-0001-0001-000000000006
+        formatString: #,##0
+
+    measure 'Marketing Pct of Sales' = DIVIDE([Average Marketing Budget], [Total Sales])
+        lineageTag: c1000001-0001-0001-0001-000000000007
+        formatString: 0.00%
+
+    measure 'Sales per SQFT' = DIVIDE([Total Sales], [Average Store Square Footage])
+        lineageTag: c1000001-0001-0001-0001-000000000008
+        formatString: $ #,##0
+
+    measure 'ROI' = DIVIDE([Total Sales] - [Total Cost], [Total Cost])
+        lineageTag: c1000001-0001-0001-0001-000000000009
+        formatString: 0.00%
+
+    measure 'Adjusted ROI' = DIVIDE([Total Adjusted Sales] - [Total Adjusted Sales Cost], [Total Adjusted Sales Cost])
+        lineageTag: c1000001-0001-0001-0001-000000000010
+        formatString: 0.00%
+
+    measure 'Regular Sales Avg' = AVERAGE(RAND_RETAILDEMO[Sales])
+        lineageTag: c1000001-0001-0001-0001-000000000011
+        formatString: $ #,##0
+
+    measure 'Store Age' = AVERAGE(RAND_RETAILDEMO[Storeage])
+        lineageTag: c1000001-0001-0001-0001-000000000012
+        formatString: #,##0.##
+
+    hierarchy 'Merchandise Hierarchy'
+        lineageTag: d1000001-0001-0001-0001-000000000001
+
+        level Department
+            lineageTag: d1000001-0001-0001-0001-000000000002
+            column: Department
+
+        level Class
+            lineageTag: d1000001-0001-0001-0001-000000000003
+            column: Class
+
+    hierarchy 'Custom Region Hierarchy'
+        lineageTag: d1000001-0001-0001-0001-000000000004
+
+        level Region
+            lineageTag: d1000001-0001-0001-0001-000000000005
+            column: Region
+
+        level State
+            lineageTag: d1000001-0001-0001-0001-000000000006
+            column: State
+
+    hierarchy 'Region 2 Hierarchy'
+        lineageTag: d1000001-0001-0001-0001-000000000007
+
+        level Region_2
+            lineageTag: d1000001-0001-0001-0001-000000000008
+            column: Region_2
+
+        level State
+            lineageTag: d1000001-0001-0001-0001-000000000009
+            column: State
+
+    partition 'RAND_RETAILDEMO-Partition' = m
+        mode: import
+        source =
+            let
+                Source = Sql.Database("wdq5gjizki2e7hmjiv5ebwjtry-7losahhpcvmutgb6hnghc4e52y.datawarehouse.fabric.microsoft.com", "lh_retail_insights"),
+                Table  = Source{[Schema="dbo", Item="rand_retaildemo"]}[Data]
+            in
+                Table
+
+    annotation PBI_ResultType = Table

@@ -1,0 +1,28 @@
+table 'Sales Change'
+    lineageTag: e1000001-0001-0001-0001-000000000001
+
+    column 'Sales Change'
+        dataType: double
+        lineageTag: e1000001-0001-0001-0001-000000000002
+        sourceColumn: Sales Change
+        summarizeBy: none
+
+    measure 'Sales Change Value' = SELECTEDVALUE('Sales Change'[Sales Change], 0.2)
+        lineageTag: e1000001-0001-0001-0001-000000000003
+        formatString: 0.00
+
+    partition 'Sales Change-Partition' = m
+        mode: import
+        source =
+            let
+                Source = Table.FromRows(
+                    List.Transform(
+                        List.Numbers(0, Number.RoundUp((1.0 - (-1.0)) / 0.01) + 1),
+                        each {Number.Round(-1.0 + _ * 0.01, 2)}
+                    ),
+                    type table [#"Sales Change" = number]
+                )
+            in
+                Source
+
+    annotation PBI_ResultType = Table

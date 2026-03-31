@@ -1,0 +1,103 @@
+table PROMO_EFFECTIVENESS_X_EFFECTS_2
+    lineageTag: a2b2c3d4-e5f6-7890-abcd-ef1234567890
+
+    column prod_hier_sk
+        dataType: string
+        lineageTag: b2000001-0001-0001-0001-000000000001
+        sourceColumn: prod_hier_sk
+        summarizeBy: none
+
+    column name
+        dataType: string
+        lineageTag: b2000001-0001-0001-0001-000000000002
+        sourceColumn: name
+        summarizeBy: none
+
+    column promotion_name
+        dataType: string
+        lineageTag: b2000001-0001-0001-0001-000000000003
+        sourceColumn: promotion_name
+        summarizeBy: none
+
+    column revenue_____actual
+        dataType: double
+        lineageTag: b2000001-0001-0001-0001-000000000007
+        sourceColumn: revenue_____actual
+        summarizeBy: sum
+
+    column revenue_____baseline
+        dataType: double
+        lineageTag: b2000001-0001-0001-0001-000000000008
+        sourceColumn: revenue_____baseline
+        summarizeBy: sum
+
+    column revenue_____expected
+        dataType: double
+        lineageTag: b2000001-0001-0001-0001-000000000009
+        sourceColumn: revenue_____expected
+        summarizeBy: sum
+
+    column forecast_accuracy
+        dataType: double
+        lineageTag: b2000001-0001-0001-0001-000000000010
+        sourceColumn: forecast_accuracy
+        summarizeBy: average
+
+    column revenue_____expected_change
+        dataType: double
+        lineageTag: b2000001-0001-0001-0001-000000000011
+        sourceColumn: revenue_____expected_change
+        summarizeBy: sum
+
+    column halo___cannibal_impact
+        dataType: double
+        lineageTag: b2000001-0001-0001-0001-000000000012
+        sourceColumn: halo___cannibal_impact
+        summarizeBy: sum
+
+    column own_price_impact
+        dataType: double
+        lineageTag: b2000001-0001-0001-0001-000000000013
+        sourceColumn: own_price_impact
+        summarizeBy: sum
+
+    column total_price_impact
+        dataType: double
+        lineageTag: b2000001-0001-0001-0001-000000000014
+        sourceColumn: total_price_impact
+        summarizeBy: sum
+
+    measure 'Total Revenue Actual' = SUM(PROMO_EFFECTIVENESS_X_EFFECTS_2[revenue_____actual])
+        lineageTag: c2000001-0001-0001-0001-000000000001
+        formatString: $ #,##0
+
+    measure 'Total Revenue Baseline' = SUM(PROMO_EFFECTIVENESS_X_EFFECTS_2[revenue_____baseline])
+        lineageTag: c2000001-0001-0001-0001-000000000002
+        formatString: $ #,##0
+
+    measure 'Total Revenue Expected' = SUM(PROMO_EFFECTIVENESS_X_EFFECTS_2[revenue_____expected])
+        lineageTag: c2000001-0001-0001-0001-000000000003
+        formatString: $ #,##0
+
+    measure 'Actual vs Forecast' = DIVIDE([Total Revenue Actual] - [Total Revenue Expected], [Total Revenue Expected])
+        lineageTag: c2000001-0001-0001-0001-000000000004
+        formatString: 0.00%
+
+    measure 'Actual vs Baseline' = DIVIDE([Total Revenue Actual] - [Total Revenue Baseline], [Total Revenue Baseline])
+        lineageTag: c2000001-0001-0001-0001-000000000005
+        formatString: 0.00%
+
+    measure 'Forecast vs Baseline' = DIVIDE([Total Revenue Expected] - [Total Revenue Baseline], [Total Revenue Baseline])
+        lineageTag: c2000001-0001-0001-0001-000000000006
+        formatString: 0.00%
+
+    partition 'PROMO_EFFECTIVENESS_X_EFFECTS_2-Partition' = m
+        mode: import
+        source =
+            let
+                Source = Sql.Database("wdq5gjizki2e7hmjiv5ebwjtry-7losahhpcvmutgb6hnghc4e52y.datawarehouse.fabric.microsoft.com", "lh_retail_insights"),
+                Table  = Source{[Schema="dbo", Item="promo_effectiveness"]}[Data]
+            in
+                Table
+
+    annotation PBI_ResultType = Table

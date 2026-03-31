@@ -3,20 +3,28 @@
   "calculation_count": 12,
   "calculations": [
     {
-      "name": "bi381",
-      "label": "Adjusted Sales",
-      "type": "CalculatedItem",
-      "expression": "cond(in(${bi31,binned},'US_MW','US_CS','US_AT','LATA','EU','ASIA'),times(${bi36,raw},plus(0.85,#{pr380})),times(${bi36,raw},plus(1,#{pr380})))",
+      "name": "bi3681",
+      "label": "Product Size",
+      "type": "GroupedItem",
+      "expression": "",
       "classification": "",
-      "aggregation": "sum"
+      "aggregation": ""
     },
     {
-      "name": "bi478",
-      "label": "Adjusted Sales Cost",
-      "type": "CalculatedItem",
-      "expression": "times(${bi37,raw},plus(1,#{pr424}))",
+      "name": "bi3698",
+      "label": "Product Age",
+      "type": "GroupedItem",
+      "expression": "",
       "classification": "",
-      "aggregation": "sum"
+      "aggregation": ""
+    },
+    {
+      "name": "bi3854",
+      "label": "Product Health",
+      "type": "GroupedItem",
+      "expression": "",
+      "classification": "",
+      "aggregation": ""
     },
     {
       "name": "bi78",
@@ -75,28 +83,20 @@
       "aggregation": ""
     },
     {
-      "name": "bi3681",
-      "label": "Product Size",
-      "type": "GroupedItem",
-      "expression": "",
+      "name": "bi381",
+      "label": "Adjusted Sales",
+      "type": "CalculatedItem",
+      "expression": "cond(in(${bi31,binned},'US_MW','US_CS','US_AT','LATA','EU','ASIA'),times(${bi36,raw},plus(0.85,#{pr380})),times(${bi36,raw},plus(1,#{pr380})))",
       "classification": "",
-      "aggregation": ""
+      "aggregation": "sum"
     },
     {
-      "name": "bi3698",
-      "label": "Product Age",
-      "type": "GroupedItem",
-      "expression": "",
+      "name": "bi478",
+      "label": "Adjusted Sales Cost",
+      "type": "CalculatedItem",
+      "expression": "times(${bi37,raw},plus(1,#{pr424}))",
       "classification": "",
-      "aggregation": ""
-    },
-    {
-      "name": "bi3854",
-      "label": "Product Health",
-      "type": "GroupedItem",
-      "expression": "",
-      "classification": "",
-      "aggregation": ""
+      "aggregation": "sum"
     }
   ]
 }

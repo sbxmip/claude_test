@@ -1,8 +1,8 @@
 # Report Dictionary: Retail Insights
 
-> Retail operations dashboard covering store banner performance, geographic sales analysis, and promotional effectiveness.
+> Retail analytics report covering store banner performance, geographic effectiveness, and promotion effectiveness for a multi-banner retail chain.
 
-**Purpose:** Enable retail executives and marketing managers to compare store banner performance, evaluate geographic ROI with what-if scenarios, and assess promotional effectiveness against forecast and baseline revenue.
+**Purpose:** Enable store operations managers, marketing analysts, and category managers to evaluate banner efficiency, regional profitability with what-if scenarios, and promotional lift across product lines.
 
 *Migrated from SAS Visual Analytics · 6 pages · 18 visuals*
 
@@ -11,7 +11,7 @@
 ## Data Sources
 
 ### RAND_RETAILDEMO
-Retail demo transaction data with store, product, customer, and geographic information.
+Retail transaction data covering sales, costs, marketing budgets, store attributes, and customer demographics across multiple banners and regions.
 
 **Connection:** `cas-shared-default.Samples.RAND_RETAILDEMO`
 
@@ -34,40 +34,39 @@ Retail demo transaction data with store, product, customer, and geographic infor
 | `Class` | Class | Dimension | categorical | — |
 | `Department` | Department | Dimension | categorical | — |
 | `Region` | Region | Dimension | categorical | — |
+| `Region` | Custom Region | Dimension | categorical | — |
 | `Region_2` | Region 2 | Dimension | categorical | — |
 | `Region_2_Lat` | Region 2 Latitude | Dimension | geo (latitude) | — |
 | `Region_2_Long` | Region 2 Longitude | Dimension | geo (longitude) | — |
 | `Region_Lat` | Region Latitude | Dimension | geo (latitude) | — |
 | `Region_Long` | Region Longitude | Dimension | geo (longitude) | — |
 | `State` | State | Dimension | categorical | — |
+| `State` | State - Region | Dimension | categorical | — |
 | `State_Lat` | State Latitude | Dimension | geo (latitude) | — |
 | `State_Long` | State Longitude | Dimension | geo (longitude) | — |
 | `Storechain` | Store Chain | Dimension | categorical | — |
 | `Storechain1` | Store Chain 1 | Dimension | categorical | — |
 | `StoreNum` | Store Number | Dimension | categorical | — |
-| `Date` | Transaction Date | Dimension | time (day) | — |
+| `Date` | Date | Dimension | time (day) | — |
 | `Date` | Transaction MMYYYY | Dimension | time (month) | — |
 | `Date` | Transaction Date DOW | Dimension | time (day) | — |
 | `trx_dow_new` | Transaction Day of Week | Dimension | categorical | — |
 | `trx_tod` | Transaction Time of Day | Dimension | categorical | — |
-| `Year` | Year | Dimension | time (year) | — |
 | `trx_hr_char` | Transaction Hour | Dimension | categorical | — |
-| `Region` | Custom Region | Dimension | categorical | — |
-| `State` | State - Region | Dimension | categorical | — |
+| `Year` | Year | Dimension | time (year) | — |
 | `age` | Age | Measure | average | number |
 | `Margin` | Margin | Measure | sum | currency |
-| `mkt_bdgt` | Marketing Budget | Measure | sum | currency |
-| `mkt_bdgt` | Marketing Budget (Average) | Measure | average | currency |
+| `mkt_bdgt` | Marketing Budget | Measure | average | currency |
 | `Sales` | Sales | Measure | sum | currency |
 | `Sales` | Regular Sales Avg | Measure | average | currency |
 | `Cost` | Cost | Measure | sum | currency |
 | `Storeage` | Store Age | Measure | average | number |
 | `sss` | Store Square Footage | Measure | average | number |
-| `adjusted_sales_calculated` | Adjusted Sales | Measure | sum | currency |
-| `adjusted_sales_cost_calculated` | Adjusted Sales Cost | Measure | sum | currency |
+| `adjusted_sales_calc` | Adjusted Sales | Measure | sum | currency |
+| `adjusted_sales_cost_calc` | Adjusted Sales Cost | Measure | sum | currency |
 
 ### PROMO_EFFECTIVENESS_X_EFFECTS_2
-Promotion effectiveness data with actual, baseline, and expected revenue along with price impact metrics.
+Promotion effectiveness data with actual, baseline, and expected revenue along with price impact metrics by product and promotion.
 
 **Connection:** `cas-shared-default.Samples.PROMO_EFFECTIVENESS_X_EFFECTS_2`
 
@@ -94,34 +93,22 @@ Promotion effectiveness data with actual, baseline, and expected revenue along w
 
 | Metric | Type | Formula / Basis | Format | Description |
 |--------|------|-----------------|--------|-------------|
-| **Total Sales** | simple | `sales` | currency | Sum of all sales transactions |
-| **Total Cost** | simple | `cost` | currency | Sum of all transaction costs |
-| **Total Marketing Budget** | simple | `marketing_budget` | currency | Sum of marketing budget |
-| **Average Marketing Budget** | simple | `marketing_budget_avg` | currency | Average marketing budget per record within grouping |
-| **Regular Sales Avg** | simple | `sales_avg` | currency | Average sales per transaction |
-| **Total Margin** | simple | `margin` | currency | Sum of profit margin |
-| **Total Adjusted Sales** | simple | `adjusted_sales` | currency | Sum of adjusted sales (what-if scenario driven by sales_change parameter) |
-| **Total Adjusted Sales Cost** | simple | `adjusted_sales_cost` | currency | Sum of adjusted cost (what-if scenario driven by cost_change parameter) |
-| **Average Store Square Footage** | simple | `store_square_footage` | number | Average store square footage within grouping |
-| **Marketing Pct of Sales** | ratio | `avg_marketing_budget` / `total_sales` | percentage | Average marketing budget divided by total sales. Shows what percentage of sales revenue is allocated to marketing. |
-| **Sales per SQFT** | ratio | `total_sales` / `avg_store_square_footage` | currency | Total sales divided by average store square footage. Measures sales productivity per unit of floor space. |
+| **Total Sales** | simple | `sales` | currency | Sum of all sales revenue |
+| **Total Cost** | simple | `cost` | currency | Sum of all costs |
+| **Average Marketing Budget** | simple | `marketing_budget` | currency | Average marketing budget across transactions |
+| **Total Adjusted Sales** | simple | `adjusted_sales` | currency | Sum of parameter-adjusted sales amounts |
+| **Total Adjusted Sales Cost** | simple | `adjusted_sales_cost` | currency | Sum of parameter-adjusted cost amounts |
+| **Average Store Square Footage** | simple | `store_square_footage` | number | Average store square footage |
+| **Total Revenue Actual** | simple | `revenue_actual` | currency | Sum of actual promotion revenue |
+| **Total Revenue Baseline** | simple | `revenue_baseline` | currency | Sum of baseline (no-promotion) revenue |
+| **Total Revenue Expected** | simple | `revenue_expected` | currency | Sum of forecasted/expected promotion revenue |
+| **Marketing Pct of Sales** | ratio | `avg_marketing_budget` / `total_sales` | percentage | Average marketing budget divided by total sales, expressing marketing spend as a percentage of sales revenue |
+| **Sales per SQFT** | ratio | `total_sales` / `avg_store_square_footage` | currency | Total sales divided by average store square footage, measuring sales efficiency per unit of store space |
 | **ROI** | derived | `(total_sales - total_cost) / total_cost` | percentage | Return on investment: (Total Sales - Total Cost) / Total Cost |
-| **Adjusted Sales** | derived | `IF region_2 IN ('US_MW','US_CS','US_AT','LATA','EU','ASIA') THEN sum(sales) * (0.85 + sales_change) ELSE sum(sales) * (1 + sales_change)` | currency | What-if adjusted sales. For regions US_MW, US_CS, US_AT, LATA, EU, ASIA: Sales * (0.85 + sales_change). For other regions: Sales * (1 + sales_change). Row-level calculation aggregated as sum. |
-| **Adjusted Sales Cost** | derived | `sum(cost) * (1 + cost_change)` | currency | What-if adjusted cost: Cost * (1 + cost_change). Row-level calculation aggregated as sum. |
-| **Adjust ROI** | derived | `(total_adjusted_sales - total_adjusted_sales_cost) / total_adjusted_sales_cost` | percentage | Adjusted ROI using what-if parameters: (Total Adjusted Sales - Total Adjusted Sales Cost) / Total Adjusted Sales Cost |
-| **Total Revenue Actual** | simple | `revenue_actual` | currency | Sum of actual promotional revenue |
-| **Total Revenue Baseline** | simple | `revenue_baseline` | currency | Sum of baseline revenue (no promotion) |
-| **Total Revenue Expected** | simple | `revenue_expected` | currency | Sum of forecasted/expected promotional revenue |
-| **Actual vs Forecast** | derived | `(total_revenue_actual - total_revenue_expected) / total_revenue_expected` | percentage | Percentage difference between actual and forecasted revenue: (Actual - Expected) / Expected. Positive means actual exceeded forecast. |
-| **Actual vs Baseline** | derived | `(total_revenue_actual - total_revenue_baseline) / total_revenue_baseline` | percentage | Incremental lift of promotion: (Actual - Baseline) / Baseline. Measures incremental revenue over no-promotion baseline. |
-| **Forecast vs Baseline** | derived | `(total_revenue_expected - total_revenue_baseline) / total_revenue_baseline` | percentage | Projected incremental impact: (Expected - Baseline) / Baseline. Measures forecasted revenue lift over baseline. |
-| **Total Revenue Expected Change** | simple | `revenue_expected_change` | currency | Sum of expected revenue change from promotions |
-| **Total Halo / Cannibal Impact** | simple | `halo_cannibal_impact` | currency | Sum of halo and cannibalization revenue impact |
-| **Total Own Price Impact** | simple | `own_price_impact` | currency | Sum of own-price impact on revenue |
-| **Total Price Impact** | simple | `total_price_impact` | currency | Sum of total price impact on revenue |
-| **Average Forecast Accuracy** | simple | `forecast_accuracy` | percentage | Average forecast accuracy across promotions |
-| **Average Customer Age** | simple | `age` | number | Average customer age |
-| **Average Store Age** | simple | `store_age` | number | Average age of stores |
+| **Adjusted ROI** | derived | `(total_adjusted_sales - total_adjusted_sales_cost) / total_adjusted_sales_cost` | percentage | ROI using parameter-adjusted sales and costs: (Total Adjusted Sales - Total Adjusted Sales Cost) / Total Adjusted Sales Cost. Enables what-if scenario analysis. |
+| **Actual vs Forecast** | derived | `(total_revenue_actual - total_revenue_expected) / total_revenue_expected` | percentage | Percentage difference between actual and expected (forecasted) promotion revenue: (Actual - Expected) / Expected. Positive means outperformance. |
+| **Actual vs Baseline** | derived | `(total_revenue_actual - total_revenue_baseline) / total_revenue_baseline` | percentage | Incremental lift from promotion above the no-promotion baseline: (Actual - Baseline) / Baseline |
+| **Forecast vs Baseline** | derived | `(total_revenue_expected - total_revenue_baseline) / total_revenue_baseline` | percentage | Initially projected incremental impact of promotion: (Expected - Baseline) / Baseline |
 
 ---
 
@@ -129,8 +116,8 @@ Promotion effectiveness data with actual, baseline, and expected revenue along w
 
 | Parameter | Label | Type | Default | Range | Affects |
 |-----------|-------|------|---------|-------|---------|
-| `sales_change` | Sales Change | decimal | 0 | -0.5 → 0.5 | `adjusted_sales_metric`, `total_adjusted_sales`, `adjust_roi` |
-| `cost_change` | Cost Change | decimal | 0 | -0.5 → 0.5 | `adjusted_cost_metric`, `total_adjusted_sales_cost`, `adjust_roi` |
+| `sales_change` | Sales Change | decimal | 0.2 | -1.0 → 1.0 | `total_adjusted_sales`, `adjust_roi` |
+| `cost_change` | Cost Change | decimal | 0.0 | -1.0 → 1.0 | `total_adjusted_sales_cost`, `adjust_roi` |
 
 ---
 
@@ -143,66 +130,67 @@ Promotion effectiveness data with actual, baseline, and expected revenue along w
 | `filter_storechain_grand` | visual | static | in(GRAND) |
 | `filter_storechain_grand_with_nulls` | visual | static | in(GRAND) |
 | `filter_storechain_moda_with_nulls` | visual | static | in(MODA) |
-| `filter_us_states` | visual | static | in(AL, AR, AZ, CA, CO, CT … (+35 more)) |
+| `rank_top5_sales_fast` | visual | rank | Top 5 department by total_sales |
+| `rank_top5_sales_grand` | visual | rank | Top 5 department by total_sales |
+| `rank_top5_sales_moda` | visual | rank | Top 5 department by total_sales |
+| `filter_us_states_map` | visual | static | in(AL, AR, AZ, CA, CO, CT … (+35 more)) |
+| `filter_us_states_bar` | visual | static | in(AL, AR, AZ, CA, CO, CT … (+35 more)) |
 | `filter_iamz_products` | visual | static | in(Iamz Dog Active Maturity 1X17.4 LB, Iamz Dog Hlth Natl Bag 1X15.5 LB, Iamz Dog Lamb and Rice 1X17.4 LB, Iamz Dog Large Breed 1X17.4 LB, Iamz Dog Mini Chunks 1X17.4 LB, Iamz Dog Small Breed 4X7 LB … (+6 more)) |
 | `filter_promo_not_missing` | visual | static | is_not_null() |
-| `rank_top5_fast_dept` | visual | rank | Top 5 department by total_sales |
-| `rank_top5_grand_dept` | visual | rank | Top 5 department by total_sales |
-| `rank_top5_moda_dept` | visual | rank | Top 5 department by total_sales |
 
 ---
 
 ## Report Pages
 
 ### Page 1: Store Banner Dashboard
-> Compares three store banners (FAST, GRAND, MODA) on Marketing % of Sales, Sales by department, and Marketing Budget. Helps identify which banners are converting marketing spend into sales most efficiently.
+> Compares the performance of three store banners (FAST, GRAND, MODA) on marketing efficiency and sales by department. Answers: How effectively is each banner converting marketing spend into sales?
 
 | Visual | Type | Metrics | Dimensions | Filters |
 |--------|------|---------|------------|---------|
-| Marketing Pct of Sales - FAST | kpi_card | `marketing_pct_of_sales` | — | `filter_storechain_fast` |
-| Marketing Pct of Sales - GRAND | kpi_card | `marketing_pct_of_sales` | — | `filter_storechain_grand` |
-| Marketing Pct of Sales - MODA | kpi_card | `marketing_pct_of_sales` | — | `filter_storechain_moda_with_nulls` |
-| Dual Axis Bar-Line - FAST | combo_chart | `total_sales`, `total_marketing_budget` | `department` | `filter_storechain_fast_with_nulls`, `rank_top5_fast_dept` |
-| Dual Axis Bar-Line - GRAND | combo_chart | `total_sales`, `total_marketing_budget` | `department` | `filter_storechain_grand_with_nulls`, `rank_top5_grand_dept` |
-| Dual Axis Bar-Line - MODA | combo_chart | `total_sales`, `total_marketing_budget` | `department` | `filter_storechain_moda_with_nulls`, `rank_top5_moda_dept` |
+| Key Value - Marketing Pct of Sales (GRAND) | kpi_card | `marketing_pct_of_sales` | — | `filter_storechain_grand` |
+| Key Value - Marketing Pct of Sales (MODA) | kpi_card | `marketing_pct_of_sales` | — | `filter_storechain_moda_with_nulls` |
+| Key Value - Marketing Pct of Sales (FAST) | kpi_card | `marketing_pct_of_sales` | — | `filter_storechain_fast` |
+| Dual Axis Bar-Line - Merchandise Hierarchy (GRAND) | combo_chart | `total_sales`, `avg_marketing_budget` | `department`, `class` | `filter_storechain_grand_with_nulls`, `rank_top5_sales_grand` |
+| Dual Axis Bar-Line - Merchandise Hierarchy (MODA) | combo_chart | `total_sales`, `avg_marketing_budget` | `department`, `class` | `filter_storechain_moda_with_nulls`, `rank_top5_sales_moda` |
+| Dual Axis Bar-Line - Merchandise Hierarchy (FAST) | combo_chart | `total_sales`, `avg_marketing_budget` | `department`, `class` | `filter_storechain_fast_with_nulls`, `rank_top5_sales_fast` |
 | Store Banner Dashboard Text | text | — | — | — |
 
-### Page 2: Geographic Effectiveness
-> Analyzes sales and ROI by region and state. Includes what-if sliders for sales and cost adjustments to evaluate regions for new store openings or improvements.
-
-| Visual | Type | Metrics | Dimensions | Filters |
-|--------|------|---------|------------|---------|
-| ROI Region Map | map | `adjust_roi` | `state`, `state_lat`, `state_long` | `filter_us_states` |
-| Sales Region | bar_chart | `total_sales`, `total_adjusted_sales` | `region` | `filter_us_states` |
-| Gauge 1 | kpi_card | `adjust_roi` | — | — |
-| Sales Change Filter | filter_control | — | — | — |
-| Geographic Effectiveness Text | text | — | — | — |
-
-### Page 3: Promotion Effectiveness
-> Evaluates promotional performance by comparing actual revenue to forecast and baseline revenue. Helps marketers understand incremental lift and forecast accuracy for specific product promotions.
-
-| Visual | Type | Metrics | Dimensions | Filters |
-|--------|------|---------|------------|---------|
-| Sales vs Base Tree Map | treemap | `actual_vs_baseline` | `product_name` | `filter_iamz_products` |
-| Promotion Details | crosstab | `total_revenue_actual`, `total_revenue_baseline`, `total_revenue_expected`, `total_revenue_expected_change`, `total_halo_cannibal_impact`, `total_own_price_impact`, `total_total_price_impact`, `actual_vs_forecast`, `actual_vs_baseline`, `forecast_vs_baseline` | `product_size`, `product_age`, `product_health` | `filter_promo_not_missing` |
-| Promotion Effectiveness Text | text | — | — | — |
-
-### Page 4: Store Banner Dashboard Information
-> Hidden help page explaining how to interpret the Store Banner Dashboard. Accessed via 'More information' link.
+### Page 2: Store Banner Dashboard Information
+> Hidden page with contextual help text explaining how to interpret the Store Banner Dashboard.
 
 | Visual | Type | Metrics | Dimensions | Filters |
 |--------|------|---------|------------|---------|
 | Store Banner Dashboard Information Text | text | — | — | — |
 
-### Page 5: Geographic Effectiveness Information
-> Hidden help page explaining how to use the Geographic Effectiveness page, including slider interactions and geo map tooltips.
+### Page 3: Geographic Effectiveness
+> Shows sales vs adjusted sales by U.S. region and adjusted ROI by state on a choropleth map. Supports what-if analysis via a sales change slider. Answers: Which regions and states generate the highest sales and ROI?
+
+| Visual | Type | Metrics | Dimensions | Filters |
+|--------|------|---------|------------|---------|
+| Sales Change Filter | filter_control | — | — | — |
+| Sales Region | bar_chart | `total_sales`, `total_adjusted_sales` | `custom_region` | `filter_us_states_bar` |
+| ROI Region Map | map | `adjust_roi` | `state_region` | `filter_us_states_map` |
+| Geographic Effectiveness Text | text | — | — | — |
+
+### Page 4: Geographic Effectiveness Information
+> Hidden page with contextual help text explaining how to use the geographic analysis tools and what-if slider.
 
 | Visual | Type | Metrics | Dimensions | Filters |
 |--------|------|---------|------------|---------|
 | Geographic Effectiveness Information Text | text | — | — | — |
 
+### Page 5: Promotion Effectiveness
+> Assesses promotional success by comparing actual revenue to forecast and baseline. Answers: Are promotions generating incremental revenue? How accurate were forecasts? Which products benefit most?
+
+| Visual | Type | Metrics | Dimensions | Filters |
+|--------|------|---------|------------|---------|
+| Sales vs Base Tree Map | treemap | `total_revenue_actual`, `actual_vs_baseline` | `product_name` | `filter_iamz_products` |
+| Promotional Sales Lift | kpi_card | `actual_vs_baseline` | — | `filter_iamz_products` |
+| Promotion Details | crosstab | `actual_vs_baseline`, `actual_vs_forecast` | `product_age`, `product_health`, `product_size` | `filter_promo_not_missing` |
+| Promotion Effectiveness Text | text | — | — | — |
+
 ### Page 6: Promotion Effectiveness Information
-> Hidden help page explaining how to use the Promotion Effectiveness page, including product selection and promotional sales lift interpretation.
+> Hidden page with contextual help text explaining how to interpret promotion effectiveness metrics and use cross-filtering.
 
 | Visual | Type | Metrics | Dimensions | Filters |
 |--------|------|---------|------------|---------|

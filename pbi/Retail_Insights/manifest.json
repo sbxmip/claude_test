@@ -1,0 +1,39 @@
+{
+  "source_report_id": "cbf97b0a-457d-4b4f-8913-547e0cdf390c",
+  "report_name": "Retail Insights",
+  "workspace_id": "1c20ddfa-15ef-4959-983e-3b4c71709dd6",
+  "lakehouse_id": "0634e28d-41f3-4b6f-bb99-f0246ebe3075",
+  "lakehouse_name": "lh_retail_insights",
+  "sql_endpoint": "wdq5gjizki2e7hmjiv5ebwjtry-7losahhpcvmutgb6hnghc4e52y.datawarehouse.fabric.microsoft.com",
+  "sql_database": "lh_retail_insights",
+  "semantic_model_id": "c8363a03-3b48-40e9-bba9-2d93f3244819",
+  "semantic_model_name": "Retail_Insights",
+  "source_tables": {
+    "rand_retaildemo": "rand_retaildemo",
+    "promo_effectiveness": "promo_effectiveness",
+    "RAND_RETAILDEMO": "rand_retaildemo",
+    "PROMO_EFFECTIVENESS_X_EFFECTS_2": "promo_effectiveness"
+  },
+  "deployed_measures": [
+    "Total Sales",
+    "Total Cost",
+    "Average Marketing Budget",
+    "Total Adjusted Sales",
+    "Total Adjusted Sales Cost",
+    "Average Store Square Footage",
+    "Marketing Pct of Sales",
+    "Sales per SQFT",
+    "ROI",
+    "Adjusted ROI",
+    "Regular Sales Avg",
+    "Store Age",
+    "Total Revenue Actual",
+    "Total Revenue Baseline",
+    "Total Revenue Expected",
+    "Actual vs Forecast",
+    "Actual vs Baseline",
+    "Forecast vs Baseline",
+    "Sales Change Value",
+    "Cost Change Value"
+  ]
+}

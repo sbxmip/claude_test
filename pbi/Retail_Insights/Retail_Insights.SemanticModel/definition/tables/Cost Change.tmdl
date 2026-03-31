@@ -1,0 +1,28 @@
+table 'Cost Change'
+    lineageTag: e2000001-0001-0001-0001-000000000001
+
+    column 'Cost Change'
+        dataType: double
+        lineageTag: e2000001-0001-0001-0001-000000000002
+        sourceColumn: Cost Change
+        summarizeBy: none
+
+    measure 'Cost Change Value' = SELECTEDVALUE('Cost Change'[Cost Change], 0.0)
+        lineageTag: e2000001-0001-0001-0001-000000000003
+        formatString: 0.00
+
+    partition 'Cost Change-Partition' = m
+        mode: import
+        source =
+            let
+                Source = Table.FromRows(
+                    List.Transform(
+                        List.Numbers(0, Number.RoundUp((1.0 - (-1.0)) / 0.01) + 1),
+                        each {Number.Round(-1.0 + _ * 0.01, 2)}
+                    ),
+                    type table [#"Cost Change" = number]
+                )
+            in
+                Source
+
+    annotation PBI_ResultType = Table
