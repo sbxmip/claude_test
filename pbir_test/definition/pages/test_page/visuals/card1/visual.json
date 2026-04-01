@@ -1,0 +1,36 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.0.0/schema.json",
+  "name": "card1",
+  "position": {
+    "x": 20,
+    "y": 20,
+    "width": 240,
+    "height": 120,
+    "z": 1000,
+    "tabOrder": 1000
+  },
+  "visual": {
+    "visualType": "card",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "RAND_RETAILDEMO"
+                    }
+                  },
+                  "Property": "Total Sales"
+                }
+              },
+              "queryRef": "RAND_RETAILDEMO.Total Sales"
+            }
+          ]
+        }
+      }
+    }
+  }
+}
